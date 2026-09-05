@@ -151,11 +151,13 @@ local function buildReportText()
     return table.concat(lines, "\n")
 end
 
+local CYRILLIC_SCALE = 0.85
+
 local function applyFont(region, size)
     if not region then return end
     if not region.SetFont and region.GetFontString then region = region:GetFontString() end
     if not region or not region.SetFont then return end
-    region:SetFont(FONT_FILE, size or 12, "")
+    region:SetFont(FONT_FILE, math.floor((size or 12) * CYRILLIC_SCALE + 0.5), "")
 end
 
 -- WoW 3.3.5 конвертирует текст EditBox в системную ANSI-кодировку при Ctrl+C.

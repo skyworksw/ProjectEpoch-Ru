@@ -1,11 +1,12 @@
 RUQL_ACHIEVEMENTS = RUQL_ACHIEVEMENTS or {}
 
 local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
+local CYRILLIC_SCALE = 0.85
 
 local function applyFont(region)
     if not region or not region.SetFont or not region.GetFont then return end
     local _, size, flags = region:GetFont()
-    region:SetFont(FONT_FILE, size or 12, flags or "")
+    region:SetFont(FONT_FILE, math.floor((size or 12) * CYRILLIC_SCALE + 0.5), flags or "")
 end
 
 local function showAchievementTranslation(tooltip, link)

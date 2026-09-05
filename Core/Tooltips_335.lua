@@ -2,12 +2,16 @@ RUQL_ITEMS = RUQL_ITEMS or {}
 RUQL_SPELLS = RUQL_SPELLS or {}
 
 local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
+-- FRIZQT___CYR.ttf renders noticeably larger than the stock Latin Friz
+-- Quadrata at the same point size, so scale down to match the original
+-- proportions (e.g. item title vs. body text).
+local CYRILLIC_SCALE = 0.85
 local guard = false
 
 local function applyFont(line)
     if not line or not line.SetFont or not line.GetFont then return end
     local _, size, flags = line:GetFont()
-    line:SetFont(FONT_FILE, size or 12, flags or "")
+    line:SetFont(FONT_FILE, math.floor((size or 12) * CYRILLIC_SCALE + 0.5), flags or "")
 end
 
 local function isQuotedDescription(text)
