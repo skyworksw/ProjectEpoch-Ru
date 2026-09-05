@@ -77,6 +77,7 @@ local function setText(region, text)
     end
 end
 
+local fontDebugPrinted = false
 local function applyFont(region, size, flags)
     if not region then return end
     if not region.SetFont and region.GetFontString then
@@ -84,6 +85,11 @@ local function applyFont(region, size, flags)
     end
     if not region or not region.SetFont then return end
     local ok = region:SetFont(FONT_FILE, size, flags or "")
+    if not fontDebugPrinted then
+        fontDebugPrinted = true
+        local activeFont = region.GetFont and region:GetFont()
+        chat("font debug: ok=" .. tostring(ok) .. " active=" .. tostring(activeFont))
+    end
     if not ok and region.GetFont then
         local oldFont, oldSize, oldFlags = region:GetFont()
         if oldFont then region:SetFont(oldFont, oldSize or size, oldFlags or "") end
