@@ -1,7 +1,7 @@
 RUQL_ITEMS = RUQL_ITEMS or {}
 RUQL_SPELLS = RUQL_SPELLS or {}
 
-local FONT_FILE = "Interface\\AddOns\\WoWQuestLocalizer_RU\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
 local guard = false
 
 local function fontLastLines(tooltip, firstLine)

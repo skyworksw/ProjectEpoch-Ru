@@ -4,7 +4,7 @@ RUQL_QUESTS = RUQL_QUESTS or {}
 RUQL_TITLE_INDEX = RUQL_TITLE_INDEX or {}
 
 local VERSION = "0.2.1"
-local FONT_FILE = "Interface\\AddOns\\WoWQuestLocalizer_RU\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
 local state = {
     currentID = nil,
     currentKind = nil,

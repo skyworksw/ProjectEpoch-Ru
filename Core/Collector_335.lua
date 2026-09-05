@@ -210,7 +210,7 @@ frame:RegisterEvent("QUEST_DETAIL")
 frame:RegisterEvent("ACHIEVEMENT_EARNED")
 frame:SetScript("OnEvent", function(self, event, argument)
     if event == "ADDON_LOADED" then
-        if argument == "WoWQuestLocalizer_RU" then ensureTables() end
+        if argument == "ProjectEpoch-Ru" then ensureTables() end
     elseif event == "PLAYER_TARGET_CHANGED" then
         RUQL_CollectUnit("target")
     elseif event == "UPDATE_MOUSEOVER_UNIT" then

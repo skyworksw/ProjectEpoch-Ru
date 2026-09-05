@@ -1,7 +1,7 @@
 RUQL_INTERFACE_TEXT = RUQL_INTERFACE_TEXT or {}
 RUQL_GLOBAL_STRINGS = RUQL_GLOBAL_STRINGS or {}
 
-local FONT_FILE = "Interface\\AddOns\\WoWQuestLocalizer_RU\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
 
 local function applyInterfaceTranslation()
     local key, translation
@@ -26,7 +26,7 @@ local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_LOGIN")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, addonName)
-    if event == "PLAYER_LOGIN" or addonName ~= "WoWQuestLocalizer_RU" then
+    if event == "PLAYER_LOGIN" or addonName ~= "ProjectEpoch-Ru" then
         applyInterfaceTranslation()
     end
 end)

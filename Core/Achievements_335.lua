@@ -1,6 +1,6 @@
 RUQL_ACHIEVEMENTS = RUQL_ACHIEVEMENTS or {}
 
-local FONT_FILE = "Interface\\AddOns\\WoWQuestLocalizer_RU\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
 
 local function showAchievementTranslation(tooltip, link)
     local achievementID = link and tonumber(string.match(link, "achievement:(%d+)"))

@@ -1,4 +1,4 @@
-# WoW Quest Localizer RU
+# ProjectEpoch-Ru
 
 Аддон переводит тексты заданий и подсказки предметов в англоязычном клиенте
 WoW 3.3.5a. Он рассчитан на классический интерфейс `30300` и отдельно
@@ -7,11 +7,11 @@ WoW 3.3.5a. Он рассчитан на классический интерфе
 ## Установка на macOS
 
 1. Откройте Finder и перейдите в папку клиента.
-2. Скопируйте целиком папку `WoWQuestLocalizer_RU` в `Interface/AddOns`.
+2. Скопируйте целиком папку `ProjectEpoch-Ru` в `Interface/AddOns`.
 3. Итоговый путь должен выглядеть так:
-   `World of Warcraft/Interface/AddOns/WoWQuestLocalizer_RU/WoWQuestLocalizer_RU.toc`.
+   `World of Warcraft/Interface/AddOns/ProjectEpoch-Ru/ProjectEpoch-Ru.toc`.
 4. Запустите клиент, откройте «Модификации» на экране выбора персонажа и включите
-   `WoW Quest Localizer RU`. Если потребуется, включите устаревшие модификации.
+   `ProjectEpoch-Ru`. Если потребуется, включите устаревшие модификации.
 
 Для этого проекта тестовый клиент находится в:
 `/Users/graphmachine/Desktop/New Folder With Items`.
@@ -35,7 +35,7 @@ WoW 3.3.5a. Он рассчитан на классический интерфе
 ## Кастомные задания сервера
 
 Неизвестные задания автоматически записываются в SavedVariables:
-`WTF/Account/<ACCOUNT>/SavedVariables/WoWQuestLocalizer_RU.lua`.
+`WTF/Account/<ACCOUNT>/SavedVariables/ProjectEpoch-Ru.lua`.
 
 После выхода из игры перенесите их перевод в `Data/Custom/QuestData_Custom_RU.lua`. Формат и
 готовый пример находятся в самом файле. Если известен числовой ID задания, аддон
