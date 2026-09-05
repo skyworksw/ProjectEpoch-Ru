@@ -138,6 +138,34 @@ local function applyFont(region, size)
     region:SetFont(FONT_FILE, size or 12, "")
 end
 
+-- WoW 3.3.5 конвертирует текст EditBox в системную ANSI-кодировку при Ctrl+C.
+-- На клиенте без русской локали ОС кириллица необратимо превращается в "?"
+-- ещё до попадания в буфер обмена. Base64 — чистый ASCII, который эту
+-- конвертацию переживает в любой кодировке; разработчик раскодирует его сам.
+local BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
+local function base64Encode(data)
+    local result = {}
+    local length = string.len(data)
+    local i = 1
+    while i <= length do
+        local b1 = string.byte(data, i)
+        local b2 = string.byte(data, i + 1)
+        local b3 = string.byte(data, i + 2)
+        local n = b1 * 65536 + (b2 or 0) * 256 + (b3 or 0)
+        local c1 = math.floor(n / 262144) % 64
+        local c2 = math.floor(n / 4096) % 64
+        local c3 = math.floor(n / 64) % 64
+        local c4 = n % 64
+        table.insert(result, string.sub(BASE64_CHARS, c1 + 1, c1 + 1))
+        table.insert(result, string.sub(BASE64_CHARS, c2 + 1, c2 + 1))
+        table.insert(result, b2 and string.sub(BASE64_CHARS, c3 + 1, c3 + 1) or "=")
+        table.insert(result, b3 and string.sub(BASE64_CHARS, c4 + 1, c4 + 1) or "=")
+        i = i + 3
+    end
+    return table.concat(result)
+end
+
 local reportFrame
 
 local function createReportFrame()
@@ -184,15 +212,21 @@ local function createReportFrame()
     hint:SetPoint("BOTTOMLEFT", 16, 52)
     hint:SetPoint("BOTTOMRIGHT", -16, 52)
     hint:SetJustifyH("LEFT")
-    hint:SetText("Нажми «Копировать», затем Ctrl+C, и пришли текст разработчику.")
+    hint:SetText("Это предпросмотр. Нажми «Копировать» — текст закодируется в Base64 (WoW иначе портит кириллицу при Ctrl+C) и выделится для отправки разработчику.")
     applyFont(hint, 11)
 
-    local function refresh()
-        local text = buildReportText()
+    local reportText = ""
+
+    local function setEditBoxText(text)
         local _, lineBreaks = string.gsub(text, "\n", "\n")
         editBox:SetHeight(math.max(300, (lineBreaks + 1) * 14))
         editBox:SetText(text)
         editBox:SetCursorPosition(0)
+    end
+
+    local function refresh()
+        reportText = buildReportText()
+        setEditBoxText(reportText)
     end
     frame.refresh = refresh
 
@@ -203,8 +237,10 @@ local function createReportFrame()
     copyButton:SetText("Копировать")
     applyFont(copyButton, 12)
     copyButton:SetScript("OnClick", function()
+        setEditBoxText(base64Encode(reportText))
         editBox:SetFocus()
         editBox:HighlightText()
+        chat("текст закодирован и выделен — жми Ctrl+C и присылай разработчику")
     end)
 
     local rescanButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
@@ -290,6 +326,11 @@ local function createMinimapButton()
         GameTooltip:SetText(ADDON_TITLE)
         GameTooltip:AddLine("Отчёт о непереведённом контенте", 1, 1, 1)
         GameTooltip:AddLine("ЛКМ — открыть/закрыть, перетащить — переместить", 0.8, 0.8, 0.8)
+        local tooltipName = GameTooltip:GetName()
+        local line
+        for line = 1, GameTooltip:NumLines() do
+            applyFont(_G[tooltipName .. "TextLeft" .. line], 12)
+        end
         GameTooltip:Show()
     end)
     button:SetScript("OnLeave", function() GameTooltip:Hide() end)

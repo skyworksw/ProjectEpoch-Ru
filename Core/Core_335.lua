@@ -248,7 +248,10 @@ local function translateObjectiveLines(quest, logIndex)
     local objective
     for objective = 1, count do
         local translated = quest[5 + objective]
-        local region = _G["QuestLogObjective" .. objective]
+        -- WotLK's unified QuestInfoFrame renders leaderboard lines as
+        -- QuestInfoObjective1..N (inside QuestInfoObjectivesFrame), not the
+        -- vanilla-era QuestLogObjective1..N. Keep the old name as a fallback.
+        local region = _G["QuestInfoObjective" .. objective] or _G["QuestLogObjective" .. objective]
         if translated and translated ~= "" and region then
             local description = GetQuestLogLeaderBoard(objective, logIndex)
             local suffix = description and string.match(description, "(:%s*%d+%s*/%s*%d+.*)$") or ""

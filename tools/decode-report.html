@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RUQL — декодер отчёта</title>
+<style>
+  :root {
+    --bg: #eef0f2;
+    --bg-panel: #ffffff;
+    --ink: #1b2430;
+    --ink-dim: #5b6472;
+    --accent: #b3791f;
+    --accent-ink: #ffffff;
+    --border: #d7dbe0;
+    --mono-bg: #f6f7f8;
+    --ok: #2f7a4f;
+    --danger: #b23b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12161c;
+      --bg-panel: #1a2028;
+      --ink: #e6e9ee;
+      --ink-dim: #9aa4b2;
+      --accent: #e0a94c;
+      --accent-ink: #1b1206;
+      --border: #2a323d;
+      --mono-bg: #10151b;
+      --ok: #5fbf85;
+      --danger: #e07a7a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12161c;
+    --bg-panel: #1a2028;
+    --ink: #e6e9ee;
+    --ink-dim: #9aa4b2;
+    --accent: #e0a94c;
+    --accent-ink: #1b1206;
+    --border: #2a323d;
+    --mono-bg: #10151b;
+    --ok: #5fbf85;
+    --danger: #e07a7a;
+  }
+  :root[data-theme="light"] {
+    --bg: #eef0f2;
+    --bg-panel: #ffffff;
+    --ink: #1b2430;
+    --ink-dim: #5b6472;
+    --accent: #b3791f;
+    --accent-ink: #ffffff;
+    --border: #d7dbe0;
+    --mono-bg: #f6f7f8;
+    --ok: #2f7a4f;
+    --danger: #b23b3b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-sans-serif, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 48px 20px;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 760px;
+  }
+
+  header {
+    margin-bottom: 28px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 6px 0 8px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    color: var(--ink-dim);
+    font-size: 14.5px;
+    line-height: 1.55;
+    max-width: 62ch;
+  }
+
+  .card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .card + .card {
+    margin-top: 0;
+  }
+
+  .field-label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .field-label span:first-child {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .field-label span:last-child {
+    font-size: 12px;
+    color: var(--ink-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+    background: var(--mono-bg);
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  textarea:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  #input {
+    height: 130px;
+  }
+
+  #output {
+    height: 260px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  button {
+    border: 1px solid transparent;
+    border-radius: 7px;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  button.primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  button.secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--border);
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .status {
+    font-size: 13px;
+    color: var(--ink-dim);
+  }
+
+  .status.ok { color: var(--ok); }
+  .status.err { color: var(--danger); }
+
+  .hint {
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+    margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="eyebrow">ProjectEpoch-Ru · внутренний инструмент</div>
+    <h1>Декодер отчёта из аддона</h1>
+    <p class="lede">
+      Аддон кодирует отчёт об непереведённом контенте в Base64 перед копированием —
+      иначе клиент WoW при Ctrl+C давит кириллицу в «?», если у игрока не выставлена
+      русская системная кодировка. Вставь сюда то, что прислал игрок.
+    </p>
+  </header>
+
+  <div class="card">
+    <div class="field-label">
+      <span>Текст от игрока</span>
+      <span id="inCount">0 симв.</span>
+    </div>
+    <textarea id="input" placeholder="Вставь сюда содержимое сообщения игрока…" spellcheck="false"></textarea>
+    <div class="actions">
+      <button class="primary" id="decodeBtn">Раскодировать</button>
+      <button class="secondary" id="clearBtn">Очистить</button>
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="field-label">
+      <span>Читаемый отчёт</span>
+      <span id="outCount">0 симв.</span>
+    </div>
+    <textarea id="output" readonly placeholder="Здесь появится результат"></textarea>
+    <div class="actions">
+      <button class="secondary" id="copyBtn">Скопировать результат</button>
+    </div>
+  </div>
+
+  <p class="hint">
+    Работает офлайн, ничего никуда не отправляется — вся обработка происходит
+    в этой вкладке браузера. Если вставленный текст уже читаем (без «?» и
+    без Base64), он просто пройдёт мимо декодера — покажется как есть.
+  </p>
+</div>
+
+<script>
+  const input = document.getElementById('input');
+  const output = document.getElementById('output');
+  const status = document.getElementById('status');
+  const inCount = document.getElementById('inCount');
+  const outCount = document.getElementById('outCount');
+
+  const BASE64_RE = /^[A-Za-z0-9+/=\s]+$/;
+
+  function setStatus(text, kind) {
+    status.textContent = text;
+    status.className = 'status' + (kind ? ' ' + kind : '');
+  }
+
+  function tryBase64Decode(raw) {
+    const cleaned = raw.replace(/\s+/g, '');
+    if (cleaned.length === 0 || cleaned.length % 4 !== 0) return null;
+    if (!BASE64_RE.test(cleaned)) return null;
+    let binary;
+    try {
+      binary = atob(cleaned);
+    } catch (e) {
+      return null;
+    }
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    try {
+      return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function decode() {
+    const raw = input.value;
+    if (!raw.trim()) {
+      output.value = '';
+      outCount.textContent = '0 симв.';
+      setStatus('Вставь текст для декодирования.');
+      return;
+    }
+    const decoded = tryBase64Decode(raw);
+    if (decoded !== null) {
+      output.value = decoded;
+      setStatus('Раскодировано из Base64.', 'ok');
+    } else {
+      output.value = raw;
+      setStatus('Это не похоже на Base64 — показан текст как есть.', '');
+    }
+    outCount.textContent = output.value.length + ' симв.';
+  }
+
+  input.addEventListener('input', () => {
+    inCount.textContent = input.value.length + ' симв.';
+  });
+
+  document.getElementById('decodeBtn').addEventListener('click', decode);
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    input.value = '';
+    output.value = '';
+    inCount.textContent = '0 симв.';
+    outCount.textContent = '0 симв.';
+    setStatus('');
+    input.focus();
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    if (!output.value) return;
+    try {
+      await navigator.clipboard.writeText(output.value);
+      setStatus('Результат скопирован в буфер обмена.', 'ok');
+    } catch (e) {
+      output.select();
+      setStatus('Не удалось скопировать автоматически — текст выделен, нажми Ctrl+C.', 'err');
+    }
+  });
+
+  input.addEventListener('paste', () => {
+    setTimeout(decode, 0);
+  });
+</script>
+</body>
+</html>
