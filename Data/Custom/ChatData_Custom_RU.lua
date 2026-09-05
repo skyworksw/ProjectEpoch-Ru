@@ -5,5 +5,10 @@
 -- фразы трактирщиков) — достаточно перевести её один раз.
 RUQL_CHAT = RUQL_CHAT or {}
 
+-- Project Epoch: текст собран отчётом аддона 2026-09-05.
+RUQL_CHAT["Now arriving at Goldshire! Mind your step as you disembark."] = "Прибытие в Златоземье! Осторожно при выходе."
+RUQL_CHAT["Departing from Goldshire! All aboard!"] = "Отправление из Златоземья! Все на борт!"
+RUQL_CHAT["Welcome to the Lion's Pride Inn.  Make yourself at home!"] = "Добро пожаловать в трактир «Гордость льва». Чувствуй себя как дома!"
+
 -- Пример:
 -- RUQL_CHAT["If your glass is full, may it be again!"] = "Пусть бокал твой не будет пустым!"
