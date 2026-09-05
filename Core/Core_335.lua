@@ -245,6 +245,56 @@ local function translateObjectiveLines(quest, logIndex)
     end
 end
 
+local function itemIDFromLink(link)
+    if not link then return nil end
+    return tonumber(string.match(link, "item:(%d+)"))
+end
+
+-- Подписи под иконками предметов на панелях "Необходимые предметы" и
+-- "Награды" — это отдельные текстовые регионы кнопок (QuestProgressItem*Name,
+-- QuestInfoItem*Name), а не тултип, поэтому перевод тултипа их не затрагивает.
+local function translateItemButton(buttonName, itemID)
+    if not itemID then return end
+    RUQL_ITEMS = RUQL_ITEMS or {}
+    local item = RUQL_ITEMS[itemID]
+    if not item or not item[1] or item[1] == "" then return end
+    local region = _G[buttonName .. "Name"]
+    if region and region.SetText then
+        region:SetText(item[1])
+        applyFont(region, 10)
+    end
+end
+
+local function translateQuestItemButtons(kind)
+    if kind == "progress" and GetNumQuestItems and GetQuestItemLink then
+        local count = GetNumQuestItems() or 0
+        local index
+        for index = 1, count do
+            translateItemButton("QuestProgressItem" .. index, itemIDFromLink(GetQuestItemLink("required", index)))
+        end
+    elseif (kind == "detail" or kind == "complete") and GetQuestItemLink then
+        local numChoices = GetNumQuestChoices and GetNumQuestChoices() or 0
+        local numRewards = GetNumQuestRewards and GetNumQuestRewards() or 0
+        local index
+        for index = 1, numChoices do
+            translateItemButton("QuestInfoItem" .. index, itemIDFromLink(GetQuestItemLink("choice", index)))
+        end
+        for index = 1, numRewards do
+            translateItemButton("QuestInfoItem" .. (numChoices + index), itemIDFromLink(GetQuestItemLink("reward", index)))
+        end
+    elseif kind == "log" and GetQuestLogItemLink then
+        local numChoices = GetNumQuestLogChoices and GetNumQuestLogChoices() or 0
+        local numRewards = GetNumQuestLogRewards and GetNumQuestLogRewards() or 0
+        local index
+        for index = 1, numChoices do
+            translateItemButton("QuestInfoItem" .. index, itemIDFromLink(GetQuestLogItemLink("choice", index)))
+        end
+        for index = 1, numRewards do
+            translateItemButton("QuestInfoItem" .. (numChoices + index), itemIDFromLink(GetQuestLogItemLink("reward", index)))
+        end
+    end
+end
+
 local function applyLabels()
     setText(QuestInfoRewardsHeader, "Награды")
     setText(QuestInfoItemChooseText, "Вы сможете выбрать одну из этих наград:")
@@ -304,6 +354,7 @@ local function applyTranslation(kind, forceOriginal)
         setText(QuestInfoRewardText, quest[5])
     end
     applyLabels()
+    translateQuestItemButtons(kind)
 
     if kind == "log" and GetQuestLogSelection then
         translateObjectiveLines(quest, GetQuestLogSelection())
