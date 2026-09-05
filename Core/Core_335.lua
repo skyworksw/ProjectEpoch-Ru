@@ -332,11 +332,14 @@ local function applyTranslation(kind, forceOriginal)
     setText(QuestInfoTitleHeader, quest[1])
     setText(QuestProgressTitleText, quest[1])
     if kind == "detail" or kind == "log" then
+        if not quest[2] or not quest[3] then captureMissing(questID, kind) end
         setText(QuestInfoDescriptionText, quest[2])
         setText(QuestInfoObjectivesText, quest[3])
     elseif kind == "progress" then
+        if not quest[4] then captureMissing(questID, kind) end
         setText(QuestProgressText, quest[4])
     elseif kind == "complete" then
+        if not quest[5] then captureMissing(questID, kind) end
         setText(QuestInfoRewardText, quest[5])
     end
     applyLabels()
