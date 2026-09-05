@@ -64,6 +64,25 @@ local function tableCount(value)
     return count
 end
 
+local function containsCyrillic(text)
+    local i
+    for i = 1, string.len(text) do
+        local byte = string.byte(text, i)
+        if byte == 208 or byte == 209 then return true end
+    end
+    return false
+end
+
+-- Отсеиваем то, что заведомо не текст для перевода: уже переведённое
+-- (содержит кириллицу) и чисто цифровые/служебные значения (хоткеи,
+-- время, счётчики вида "0/25") — иначе скан тонет в шуме динамических чисел.
+local function looksTranslatable(text)
+    if containsCyrillic(text) then return false end
+    if string.len(text) < 2 then return false end
+    if not string.find(text, "%a") then return false end
+    return true
+end
+
 -- Интерфейс не имеет единой точки "перевода нет" как квесты/предметы, поэтому
 -- сканируется по явному запросу игрока (кнопка в окне отчёта), а не постоянно в фоне.
 local function scanVisibleInterface()
@@ -77,7 +96,8 @@ local function scanVisibleInterface()
             local okVisible, visible = pcall(object.IsVisible, object)
             if okVisible and visible and not (RUQL_INTERFACE_TEXT and RUQL_INTERFACE_TEXT[name]) then
                 local okText, text = pcall(object.GetText, object)
-                if okText and type(text) == "string" and text ~= "" and string.len(text) <= 500 and not bucket[name] then
+                if okText and type(text) == "string" and text ~= "" and string.len(text) <= 500
+                    and looksTranslatable(text) and not bucket[name] then
                     bucket[name] = { text = text, lastSeen = now() }
                     scanned = scanned + 1
                 end
