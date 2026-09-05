@@ -10,8 +10,15 @@ end
 
 local function showAchievementTranslation(tooltip, link)
     local achievementID = link and tonumber(string.match(link, "achievement:(%d+)"))
-    local achievement = achievementID and RUQL_ACHIEVEMENTS[achievementID]
-    if not achievement then return end
+    if not achievementID then return end
+    local achievement = RUQL_ACHIEVEMENTS[achievementID]
+    if not achievement then
+        if RUQL_ReportAdd and GetAchievementInfo then
+            local id, name = GetAchievementInfo(achievementID)
+            if id then RUQL_ReportAdd("achievements", achievementID, { name = name }) end
+        end
+        return
+    end
     local first = tooltip:NumLines() + 1
     tooltip:AddLine(" ")
     tooltip:AddLine("Русский перевод", 0.35, 0.65, 1)

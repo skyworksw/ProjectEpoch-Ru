@@ -4,7 +4,7 @@
 ## Notes-ruRU: Русский текст стандартных и серверных заданий для WoW 3.3.5a
 ## Author: Community project
 ## Version: 0.2.3
-## SavedVariables: RUQL_Settings
+## SavedVariables: RUQL_Settings, RUQL_Report
 
 Data\Generated\QuestData_WotLK_RU.lua
 Data\Generated\ItemData_WotLK_RU.lua
@@ -19,6 +19,7 @@ Data\Custom\ChatData_Custom_RU.lua
 Data\Imported\ImportedData_RU.lua
 
 Core\Interface_335.lua
+Core\Report_335.lua
 Core\Core_335.lua
 Core\Tooltips_335.lua
 Core\WorldTooltips_335.lua

@@ -40,7 +40,14 @@ local function onUnit(tooltip)
     if not unit then return end
     local creatureID = creatureIDFromGUID(UnitGUID(unit))
     local translation = creatureID and RUQL_NPCS[creatureID]
-    if translation then replaceWorldTooltip(tooltip, translation[1], translation[2]) end
+    if translation then
+        replaceWorldTooltip(tooltip, translation[1], translation[2])
+    elseif creatureID and RUQL_ReportAdd then
+        RUQL_ReportAdd("npcs", creatureID, {
+            name = UnitName(unit),
+            zone = GetRealZoneText and GetRealZoneText() or nil,
+        })
+    end
 end
 
 local function onShow(tooltip)
@@ -52,7 +59,13 @@ local function onShow(tooltip)
     local firstLine = name and _G[name .. "TextLeft1"]
     local original = firstLine and firstLine:GetText()
     if not original or original == "" then return end
-    replaceWorldTooltip(tooltip, RUQL_OBJECTS[original])
+    local translation = RUQL_OBJECTS[original]
+    if translation then
+        replaceWorldTooltip(tooltip, translation)
+    elseif RUQL_ReportAdd then
+        local zone = GetRealZoneText and GetRealZoneText() or "?"
+        RUQL_ReportAdd("objects", zone .. "::" .. original, { name = original, zone = zone })
+    end
 end
 
 local frame = CreateFrame("Frame")

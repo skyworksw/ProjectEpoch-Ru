@@ -167,10 +167,13 @@ end
 
 local function onItem(tooltip)
     if guard or not RUQL_Settings or not RUQL_Settings.tooltips then return end
-    local _, link = tooltip:GetItem()
+    local originalName, link = tooltip:GetItem()
     local itemID = itemIDFromLink(link)
 
     local item = itemID and RUQL_ITEMS[itemID]
+    if itemID and not item and RUQL_ReportAdd then
+        RUQL_ReportAdd("items", itemID, { name = originalName })
+    end
 
     guard = true
     if item then replaceItemText(tooltip, item) end
@@ -187,7 +190,10 @@ local function onSpell(tooltip)
     if not ok or not spellID then return end
 
     local spell = RUQL_SPELLS[spellID]
-    if not spell then return end
+    if not spell then
+        if RUQL_ReportAdd then RUQL_ReportAdd("spells", spellID, { name = originalName, rank = originalRank }) end
+        return
+    end
 
     guard = true
     replaceSpellText(tooltip, spell, originalName, originalRank)

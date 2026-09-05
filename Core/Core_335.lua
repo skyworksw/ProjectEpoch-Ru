@@ -229,6 +229,19 @@ local function restoreOriginal()
     setText(QuestInfoRewardText, original.completion)
 end
 
+local function captureMissing(questID, kind)
+    if not RUQL_ReportAdd then return end
+    local title
+    if kind == "log" and GetQuestLogSelection then
+        title = GetQuestLogTitle(GetQuestLogSelection())
+    else
+        title = GetTitleText and GetTitleText() or nil
+    end
+    title = title or getText(QuestInfoTitleHeader) or "?"
+    local key = questID and questID > 0 and tostring(questID) or ("TITLE:" .. title)
+    RUQL_ReportAdd("quests", key, { title = title })
+end
+
 local function translateObjectiveLines(quest, logIndex)
     if not logIndex or not GetNumQuestLeaderBoards then return end
     local count = GetNumQuestLeaderBoards(logIndex) or 0
@@ -326,6 +339,7 @@ local function applyTranslation(kind, forceOriginal)
 
     local quest = questID and RUQL_QUESTS[questID] or nil
     if not quest then
+        captureMissing(questID, kind)
         updateButton()
         return
     end
@@ -346,11 +360,14 @@ local function applyTranslation(kind, forceOriginal)
     setText(QuestInfoTitleHeader, quest[1])
     setText(QuestProgressTitleText, quest[1])
     if kind == "detail" or kind == "log" then
+        if not quest[2] or not quest[3] then captureMissing(questID, kind) end
         setText(QuestInfoDescriptionText, quest[2])
         setText(QuestInfoObjectivesText, quest[3])
     elseif kind == "progress" then
+        if not quest[4] then captureMissing(questID, kind) end
         setText(QuestProgressText, quest[4])
     elseif kind == "complete" then
+        if not quest[5] then captureMissing(questID, kind) end
         setText(QuestInfoRewardText, quest[5])
     end
     applyLabels()
@@ -441,8 +458,12 @@ local function initialize()
             toggleOriginal()
         elseif message == "id" then
             chat("ID текущего задания: " .. tostring(resolveQuestID() or "не определен"))
+        elseif message == "report" then
+            if RUQL_ToggleReportFrame then RUQL_ToggleReportFrame() end
+        elseif message == "report clear" then
+            if RUQL_ReportClear then RUQL_ReportClear() end
         else
-            chat("v" .. VERSION .. " — /ruql on | off | toggle | id")
+            chat("v" .. VERSION .. " — /ruql on | off | toggle | id | report | report clear")
         end
     end
     local count = 0

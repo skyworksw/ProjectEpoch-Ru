@@ -22,6 +22,7 @@ local function filter(chatFrame, event, message, author, ...)
         return false, translated, author, ...
     end
 
+    if RUQL_ReportAdd then RUQL_ReportAdd("chat", message, { author = author, event = event }) end
     return false
 end
 
