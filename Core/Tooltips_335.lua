@@ -109,6 +109,57 @@ local function replaceItemText(tooltip, item)
     end
 end
 
+-- Стандартные строки тултипа предметов не поступают через RUQL_ITEMS — их
+-- строит сам клиент по флагам предмета. Переопределять их через глобальные
+-- переменные (ITEM_BIND_ON_PICKUP и т.п.) нельзя: та часть тултипа рисуется
+-- default-шрифтом без кириллицы, и текст превращается в "???". Поэтому строки
+-- ищутся построчно в уже отрисованном тултипе и заменяются с applyFont().
+local EXACT_LINE_TRANSLATIONS = {
+    ["Binds when picked up"] = "Привязывается при получении",
+    ["Binds when equipped"] = "Привязывается при экипировке",
+    ["Binds when used"] = "Привязывается при использовании",
+    ["Quest Item"] = "Квестовый предмет",
+    ["Unique"] = "Уникальный",
+    ["Unique-Equipped"] = "Уникальный (в экипировке)",
+}
+
+local PREFIX_TRANSLATIONS = {
+    ["Use: "] = "Использование: ",
+    ["Equip: "] = "Экипировка: ",
+    ["Chance on hit: "] = "Шанс при ударе: ",
+}
+
+local function translateBoilerplateLines(tooltip)
+    local name = tooltip:GetName()
+    if not name then return end
+
+    local lineNumber
+    for lineNumber = 2, tooltip:NumLines() do
+        local line = _G[name .. "TextLeft" .. lineNumber]
+        local text = line and line:GetText()
+        if text and text ~= "" then
+            local exact = EXACT_LINE_TRANSLATIONS[text]
+            local uniqueCount = not exact and string.match(text, "^Unique %((%d+)%)$")
+            if exact then
+                line:SetText(exact)
+                applyFont(line)
+            elseif uniqueCount then
+                line:SetText("Уникальный (" .. uniqueCount .. ")")
+                applyFont(line)
+            else
+                local prefix, translatedPrefix
+                for prefix, translatedPrefix in pairs(PREFIX_TRANSLATIONS) do
+                    if string.sub(text, 1, string.len(prefix)) == prefix then
+                        line:SetText(translatedPrefix .. string.sub(text, string.len(prefix) + 1))
+                        applyFont(line)
+                        break
+                    end
+                end
+            end
+        end
+    end
+end
+
 local function itemIDFromLink(link)
     if not link then return nil end
     return tonumber(string.match(link, "item:(%d+)"))
@@ -118,18 +169,17 @@ local function onItem(tooltip)
     if guard or not RUQL_Settings or not RUQL_Settings.tooltips then return end
     local originalName, link = tooltip:GetItem()
     local itemID = itemIDFromLink(link)
-    if not itemID then return end
 
-    local item = RUQL_ITEMS[itemID]
-    if not item then
+    local item = itemID and RUQL_ITEMS[itemID]
+    if itemID and not item then
         RUQL_MissingItems = RUQL_MissingItems or {}
         RUQL_MissingItems[itemID] = originalName or true
         if RUQL_CollectItem then RUQL_CollectItem(itemID, originalName) end
-        return
     end
 
     guard = true
-    replaceItemText(tooltip, item)
+    if item then replaceItemText(tooltip, item) end
+    translateBoilerplateLines(tooltip)
     tooltip:Show()
     guard = false
 end
