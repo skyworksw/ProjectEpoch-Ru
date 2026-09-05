@@ -1,15 +1,13 @@
 RUQL_ITEMS = RUQL_ITEMS or {}
 RUQL_SPELLS = RUQL_SPELLS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
-local FALLBACK_FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\KellySlab-Regular.ttf"
 local guard = false
 
 local function applyFont(line)
     if not line or not line.SetFont or not line.GetFont then return end
     local _, size, flags = line:GetFont()
-    local ok = line:SetFont(FONT_FILE, size or 12, flags or "")
-    if not ok then line:SetFont(FALLBACK_FONT_FILE, size or 12, flags or "") end
+    line:SetFont(FONT_FILE, size or 12, flags or "")
 end
 
 local function isQuotedDescription(text)

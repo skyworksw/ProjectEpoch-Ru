@@ -4,8 +4,7 @@ RUQL_QUESTS = RUQL_QUESTS or {}
 RUQL_TITLE_INDEX = RUQL_TITLE_INDEX or {}
 
 local VERSION = "0.2.3"
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
-local FALLBACK_FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\KellySlab-Regular.ttf"
 local state = {
     currentID = nil,
     currentKind = nil,
@@ -85,7 +84,6 @@ local function applyFont(region, size, flags)
     end
     if not region or not region.SetFont then return end
     local ok = region:SetFont(FONT_FILE, size, flags or "")
-    if not ok then ok = region:SetFont(FALLBACK_FONT_FILE, size, flags or "") end
     if not ok and region.GetFont then
         local oldFont, oldSize, oldFlags = region:GetFont()
         if oldFont then region:SetFont(oldFont, oldSize or size, oldFlags or "") end
