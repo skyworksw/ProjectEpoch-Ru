@@ -1,18 +1,90 @@
 RUQL_ITEMS = RUQL_ITEMS or {}
 RUQL_SPELLS = RUQL_SPELLS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
+local FALLBACK_FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
 local guard = false
 
 local function applyFont(line)
     if not line or not line.SetFont or not line.GetFont then return end
     local _, size, flags = line:GetFont()
-    line:SetFont(FONT_FILE, size or 12, flags or "")
+    local ok = line:SetFont(FONT_FILE, size or 12, flags or "")
+    if not ok then line:SetFont(FALLBACK_FONT_FILE, size or 12, flags or "") end
 end
 
 local function isQuotedDescription(text)
     if not text or string.len(text) < 2 then return false end
     return string.sub(text, 1, 1) == '"' and string.sub(text, -1) == '"'
+end
+
+local function replaceMatchingRank(tooltip, originalRank, translatedRank)
+    if not originalRank or originalRank == "" or not translatedRank or translatedRank == "" then return end
+    local name = tooltip:GetName()
+    if not name then return end
+
+    local lineNumber
+    for lineNumber = 1, tooltip:NumLines() do
+        local left = _G[name .. "TextLeft" .. lineNumber]
+        local right = _G[name .. "TextRight" .. lineNumber]
+        if left and left:GetText() == originalRank then
+            left:SetText(translatedRank)
+            applyFont(left)
+            return
+        end
+        if right and right:GetText() == originalRank then
+            right:SetText(translatedRank)
+            applyFont(right)
+            return
+        end
+    end
+end
+
+local function findSpellDescriptionLine(tooltip, originalName, originalRank)
+    local name = tooltip:GetName()
+    if not name then return nil end
+
+    local bestLine
+    local bestLength = 0
+    local lineNumber
+    for lineNumber = 2, tooltip:NumLines() do
+        local left = _G[name .. "TextLeft" .. lineNumber]
+        local right = _G[name .. "TextRight" .. lineNumber]
+        local text = left and left:GetText()
+        local rightText = right and right:GetText()
+        if text and text ~= "" and text ~= originalName and text ~= originalRank
+            and (not rightText or rightText == "") then
+            local red, green, blue
+            if left.GetTextColor then red, green, blue = left:GetTextColor() end
+            local isError = red and green and blue and red > 0.8 and green < 0.35 and blue < 0.35
+            local length = string.len(text)
+            if not isError and length > bestLength then
+                bestLine = left
+                bestLength = length
+            end
+        end
+    end
+    return bestLine
+end
+
+local function replaceSpellText(tooltip, spell, originalName, originalRank)
+    local name = tooltip:GetName()
+    if not name then return end
+
+    local title = _G[name .. "TextLeft1"]
+    if title and spell[1] and spell[1] ~= "" then
+        title:SetText(spell[1])
+        applyFont(title)
+    end
+
+    replaceMatchingRank(tooltip, originalRank, spell[2])
+
+    if spell[3] and spell[3] ~= "" then
+        local description = findSpellDescriptionLine(tooltip, originalName, originalRank)
+        if description then
+            description:SetText(spell[3])
+            applyFont(description)
+        end
+    end
 end
 
 local function replaceItemText(tooltip, item)
@@ -80,20 +152,15 @@ local function onSpell(tooltip)
     end
 
     guard = true
-    local firstLine = tooltip:NumLines() + 1
-    tooltip:AddLine(" ")
-    tooltip:AddLine("Русский перевод", 0.35, 0.65, 1)
-    tooltip:AddLine(spell[1] or originalName or "", 1, 0.82, 0, true)
-    if spell[2] and spell[2] ~= "" then tooltip:AddLine(spell[2], 0.7, 0.7, 0.7, true) end
-    if spell[3] and spell[3] ~= "" then tooltip:AddLine(spell[3], 1, 1, 1, true) end
-    local name = tooltip:GetName()
-    local lineNumber
-    for lineNumber = firstLine, tooltip:NumLines() do
-        applyFont(name and _G[name .. "TextLeft" .. lineNumber])
-        applyFont(name and _G[name .. "TextRight" .. lineNumber])
-    end
+    replaceSpellText(tooltip, spell, originalName, originalRank)
     tooltip:Show()
     guard = false
+end
+
+local function onTalent(tooltip)
+    -- SetTalent does not consistently emit OnTooltipSetSpell on every 3.3.5 client.
+    -- Reuse the spell lookup when the tooltip exposes the underlying spell ID.
+    onSpell(tooltip)
 end
 
 local frame = CreateFrame("Frame")
@@ -110,5 +177,9 @@ frame:SetScript("OnEvent", function()
             tooltip:HookScript("OnTooltipSetItem", onItem)
             tooltip:HookScript("OnTooltipSetSpell", onSpell)
         end
+    end
+
+    if GameTooltip and GameTooltip.SetTalent and hooksecurefunc then
+        hooksecurefunc(GameTooltip, "SetTalent", onTalent)
     end
 end)

@@ -1,6 +1,14 @@
 RUQL_ACHIEVEMENTS = RUQL_ACHIEVEMENTS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
+local FALLBACK_FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
+
+local function applyFont(region)
+    if not region or not region.SetFont or not region.GetFont then return end
+    local _, size, flags = region:GetFont()
+    local ok = region:SetFont(FONT_FILE, size or 12, flags or "")
+    if not ok then region:SetFont(FALLBACK_FONT_FILE, size or 12, flags or "") end
+end
 
 local function showAchievementTranslation(tooltip, link)
     local achievementID = link and tonumber(string.match(link, "achievement:(%d+)"))
@@ -16,7 +24,7 @@ local function showAchievementTranslation(tooltip, link)
     local line
     for line = first, tooltip:NumLines() do
         local region = name and _G[name .. "TextLeft" .. line]
-        if region and region.SetFont then region:SetFont(FONT_FILE, 12, "") end
+        applyFont(region)
     end
     tooltip:Show()
 end

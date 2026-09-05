@@ -1,7 +1,15 @@
 RUQL_INTERFACE_TEXT = RUQL_INTERFACE_TEXT or {}
 RUQL_GLOBAL_STRINGS = RUQL_GLOBAL_STRINGS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
+local FALLBACK_FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
+
+local function applyFont(object)
+    if not object or not object.SetFont or not object.GetFont then return end
+    local _, size, flags = object:GetFont()
+    local ok = object:SetFont(FONT_FILE, size or 12, flags or "")
+    if not ok then object:SetFont(FALLBACK_FONT_FILE, size or 12, flags or "") end
+end
 
 local function applyInterfaceTranslation()
     local key, translation
@@ -14,7 +22,7 @@ local function applyInterfaceTranslation()
         local object = _G[key]
         if object and object.SetText and type(translation) == "string" then
             object:SetText(translation)
-            if object.SetFont then object:SetFont(FONT_FILE, 12, "") end
+            applyFont(object)
         end
     end
 end

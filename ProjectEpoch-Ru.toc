@@ -3,7 +3,7 @@
 ## Notes: Russian quest text for WoW 3.3.5a and custom servers
 ## Notes-ruRU: Русский текст стандартных и серверных заданий для WoW 3.3.5a
 ## Author: Community project
-## Version: 0.2.2
+## Version: 0.2.3
 ## SavedVariables: RUQL_Settings, RUQL_Missing, RUQL_MissingItems, RUQL_MissingSpells, RUQL_Collected
 
 Data\Generated\QuestData_WotLK_RU.lua
