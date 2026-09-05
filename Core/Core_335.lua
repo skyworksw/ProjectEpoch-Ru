@@ -286,6 +286,11 @@ local function applyLabels()
     setText(QuestInfoItemReceiveText, "Вы получите:")
     setText(QuestInfoXPFrameReceiveText, "Опыт:")
     setText(QuestProgressRequiredItemsText, "Необходимые предметы:")
+    applyFont(QuestInfoRewardsHeader, 18)
+    applyFont(QuestInfoItemChooseText, 13)
+    applyFont(QuestInfoItemReceiveText, 13)
+    applyFont(QuestInfoXPFrameReceiveText, 13)
+    applyFont(QuestProgressRequiredItemsText, 13)
 end
 
 local function updateButton()
