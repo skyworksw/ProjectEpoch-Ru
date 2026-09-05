@@ -1,6 +1,6 @@
 RUQL_ACHIEVEMENTS = RUQL_ACHIEVEMENTS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\KellySlab-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
 
 local function applyFont(region)
     if not region or not region.SetFont or not region.GetFont then return end

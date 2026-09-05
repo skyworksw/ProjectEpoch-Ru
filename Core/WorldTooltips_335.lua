@@ -1,7 +1,7 @@
 RUQL_NPCS = RUQL_NPCS or {}
 RUQL_OBJECTS = RUQL_OBJECTS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\KellySlab-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
 local guard = false
 
 local function creatureIDFromGUID(guid)

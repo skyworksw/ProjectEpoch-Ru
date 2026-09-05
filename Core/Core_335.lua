@@ -4,7 +4,7 @@ RUQL_QUESTS = RUQL_QUESTS or {}
 RUQL_TITLE_INDEX = RUQL_TITLE_INDEX or {}
 
 local VERSION = "0.2.3"
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\KellySlab-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
 local state = {
     currentID = nil,
     currentKind = nil,
@@ -77,7 +77,6 @@ local function setText(region, text)
     end
 end
 
-local fontDebugPrinted = false
 local function applyFont(region, size, flags)
     if not region then return end
     if not region.SetFont and region.GetFontString then
@@ -85,11 +84,6 @@ local function applyFont(region, size, flags)
     end
     if not region or not region.SetFont then return end
     local ok = region:SetFont(FONT_FILE, size, flags or "")
-    if not fontDebugPrinted then
-        fontDebugPrinted = true
-        local activeFont = region.GetFont and region:GetFont()
-        chat("font debug: ok=" .. tostring(ok) .. " active=" .. tostring(activeFont))
-    end
     if not ok and region.GetFont then
         local oldFont, oldSize, oldFlags = region:GetFont()
         if oldFont then region:SetFont(oldFont, oldSize or size, oldFlags or "") end

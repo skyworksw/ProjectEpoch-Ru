@@ -1,7 +1,7 @@
 RUQL_ITEMS = RUQL_ITEMS or {}
 RUQL_SPELLS = RUQL_SPELLS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\KellySlab-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
 local guard = false
 
 local function applyFont(line)

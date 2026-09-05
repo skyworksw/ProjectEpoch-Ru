@@ -1,7 +1,7 @@
 RUQL_INTERFACE_TEXT = RUQL_INTERFACE_TEXT or {}
 RUQL_GLOBAL_STRINGS = RUQL_GLOBAL_STRINGS or {}
 
-local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\KellySlab-Regular.ttf"
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
 
 local function applyFont(object)
     if not object or not object.SetFont or not object.GetFont then return end
