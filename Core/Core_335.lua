@@ -79,6 +79,10 @@ local function setText(region, text)
 end
 
 local function applyFont(region, size, flags)
+    if not region then return end
+    if not region.SetFont and region.GetFontString then
+        region = region:GetFontString()
+    end
     if not region or not region.SetFont then return end
     local ok = region:SetFont(FONT_FILE, size, flags or "")
     if not ok then ok = region:SetFont(FALLBACK_FONT_FILE, size, flags or "") end
