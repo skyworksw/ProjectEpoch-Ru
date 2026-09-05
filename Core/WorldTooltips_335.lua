@@ -43,8 +43,11 @@ local function onUnit(tooltip)
     if translation then
         replaceWorldTooltip(tooltip, translation[1], translation[2])
     elseif creatureID and RUQL_ReportAdd then
+        local tooltipName = tooltip:GetName()
+        local subtitleRegion = tooltipName and _G[tooltipName .. "TextLeft2"]
         RUQL_ReportAdd("npcs", creatureID, {
             name = UnitName(unit),
+            subtitle = subtitleRegion and subtitleRegion:GetText(),
             zone = GetRealZoneText and GetRealZoneText() or nil,
         })
     end

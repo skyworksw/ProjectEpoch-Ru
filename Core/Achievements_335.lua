@@ -14,8 +14,10 @@ local function showAchievementTranslation(tooltip, link)
     local achievement = RUQL_ACHIEVEMENTS[achievementID]
     if not achievement then
         if RUQL_ReportAdd and GetAchievementInfo then
-            local id, name = GetAchievementInfo(achievementID)
-            if id then RUQL_ReportAdd("achievements", achievementID, { name = name }) end
+            local id, name, _, _, _, _, _, description, _, _, reward = GetAchievementInfo(achievementID)
+            if id then
+                RUQL_ReportAdd("achievements", achievementID, { name = name, description = description, reward = reward })
+            end
         end
         return
     end

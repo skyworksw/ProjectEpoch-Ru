@@ -239,7 +239,27 @@ local function captureMissing(questID, kind)
     end
     title = title or getText(QuestInfoTitleHeader) or "?"
     local key = questID and questID > 0 and tostring(questID) or ("TITLE:" .. title)
-    RUQL_ReportAdd("quests", key, { title = title })
+
+    local fields = { title = title }
+    if kind == "detail" then
+        fields.description = GetQuestText and GetQuestText() or getText(QuestInfoDescriptionText)
+        fields.objectives = GetObjectiveText and GetObjectiveText() or getText(QuestInfoObjectivesText)
+    elseif kind == "log" then
+        if GetQuestLogQuestText then
+            local description, objectives = GetQuestLogQuestText()
+            fields.description = description
+            fields.objectives = objectives
+        else
+            fields.description = getText(QuestInfoDescriptionText)
+            fields.objectives = getText(QuestInfoObjectivesText)
+        end
+    elseif kind == "progress" then
+        fields.progress = GetProgressText and GetProgressText() or getText(QuestProgressText)
+    elseif kind == "complete" then
+        fields.completion = GetRewardText and GetRewardText() or getText(QuestInfoRewardText)
+    end
+
+    RUQL_ReportAdd("quests", key, fields)
 end
 
 local function translateObjectiveLines(quest, logIndex)

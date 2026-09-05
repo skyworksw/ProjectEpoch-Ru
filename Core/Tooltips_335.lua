@@ -165,6 +165,25 @@ local function itemIDFromLink(link)
     return tonumber(string.match(link, "item:(%d+)"))
 end
 
+-- Полный текст тултипа "как есть" — единственный доступный источник оригинала,
+-- когда у разработчика нет доступа к серверной БД предметов/заклинаний.
+local function dumpTooltipLines(tooltip)
+    local name = tooltip:GetName()
+    if not name then return nil end
+    local lines = {}
+    local lineNumber
+    for lineNumber = 1, tooltip:NumLines() do
+        local left = _G[name .. "TextLeft" .. lineNumber]
+        local right = _G[name .. "TextRight" .. lineNumber]
+        local leftText = left and left:GetText()
+        local rightText = right and right:GetText()
+        if leftText and leftText ~= "" then
+            table.insert(lines, rightText and rightText ~= "" and (leftText .. "    " .. rightText) or leftText)
+        end
+    end
+    return table.concat(lines, "\n")
+end
+
 local function onItem(tooltip)
     if guard or not RUQL_Settings or not RUQL_Settings.tooltips then return end
     local originalName, link = tooltip:GetItem()
@@ -172,7 +191,7 @@ local function onItem(tooltip)
 
     local item = itemID and RUQL_ITEMS[itemID]
     if itemID and not item and RUQL_ReportAdd then
-        RUQL_ReportAdd("items", itemID, { name = originalName })
+        RUQL_ReportAdd("items", itemID, { name = originalName, raw = dumpTooltipLines(tooltip) })
     end
 
     guard = true
@@ -191,7 +210,9 @@ local function onSpell(tooltip)
 
     local spell = RUQL_SPELLS[spellID]
     if not spell then
-        if RUQL_ReportAdd then RUQL_ReportAdd("spells", spellID, { name = originalName, rank = originalRank }) end
+        if RUQL_ReportAdd then
+            RUQL_ReportAdd("spells", spellID, { name = originalName, rank = originalRank, raw = dumpTooltipLines(tooltip) })
+        end
         return
     end
 

@@ -107,26 +107,48 @@ local function scanVisibleInterface()
     return scanned
 end
 
-local function formatEntry(categoryKey, key, entry)
+-- Каждая запись форматируется в несколько строк: заголовок + вложенные
+-- строки с полным оригинальным текстом (описание/цель/сырой тултип и т.д.),
+-- чтобы разработчик мог переводить прямо по отчёту, без доступа к серверной БД.
+local function appendField(out, label, value)
+    if not value or value == "" then return end
+    table.insert(out, "    " .. label .. ":")
+    local line
+    for line in string.gmatch(value .. "\n", "([^\n]*)\n") do
+        table.insert(out, "      " .. line)
+    end
+end
+
+local function formatEntry(categoryKey, key, entry, out)
     if categoryKey == "quests" then
-        return tostring(key) .. " — " .. (entry.title or "?")
+        table.insert(out, "  " .. tostring(key) .. " — " .. (entry.title or "?"))
+        appendField(out, "Описание", entry.description)
+        appendField(out, "Цель", entry.objectives)
+        appendField(out, "Прогресс", entry.progress)
+        appendField(out, "Завершение", entry.completion)
     elseif categoryKey == "items" then
-        return tostring(key) .. " — " .. (entry.name or "?")
+        table.insert(out, "  " .. tostring(key) .. " — " .. (entry.name or "?"))
+        appendField(out, "Тултип целиком", entry.raw)
     elseif categoryKey == "spells" then
         local rank = entry.rank and entry.rank ~= "" and (" (" .. entry.rank .. ")") or ""
-        return tostring(key) .. " — " .. (entry.name or "?") .. rank
+        table.insert(out, "  " .. tostring(key) .. " — " .. (entry.name or "?") .. rank)
+        appendField(out, "Тултип целиком", entry.raw)
     elseif categoryKey == "achievements" then
-        return tostring(key) .. " — " .. (entry.name or "?")
+        table.insert(out, "  " .. tostring(key) .. " — " .. (entry.name or "?"))
+        appendField(out, "Описание", entry.description)
+        appendField(out, "Награда", entry.reward)
     elseif categoryKey == "chat" then
-        return (entry.author or "?") .. ": \"" .. tostring(key) .. "\""
+        table.insert(out, "  " .. (entry.author or "?") .. ": \"" .. tostring(key) .. "\"")
     elseif categoryKey == "npcs" then
-        return tostring(key) .. " — " .. (entry.name or "?") .. " (" .. (entry.zone or "?") .. ")"
+        table.insert(out, "  " .. tostring(key) .. " — " .. (entry.name or "?") .. " (" .. (entry.zone or "?") .. ")")
+        appendField(out, "Подзаголовок", entry.subtitle)
     elseif categoryKey == "objects" then
-        return (entry.name or tostring(key)) .. " (" .. (entry.zone or "?") .. ")"
+        table.insert(out, "  " .. (entry.name or tostring(key)) .. " (" .. (entry.zone or "?") .. ")")
     elseif categoryKey == "interface" then
-        return tostring(key) .. " — \"" .. (entry.text or "") .. "\""
+        table.insert(out, "  " .. tostring(key) .. " — \"" .. (entry.text or "") .. "\"")
+    else
+        table.insert(out, "  " .. tostring(key))
     end
-    return tostring(key)
 end
 
 local function buildReportText()
@@ -144,7 +166,7 @@ local function buildReportText()
         else
             local key, entry
             for key, entry in pairs(bucket) do
-                table.insert(lines, "  " .. formatEntry(category.key, key, entry))
+                formatEntry(category.key, key, entry, lines)
             end
         end
     end
