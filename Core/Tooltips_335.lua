@@ -4,15 +4,38 @@ RUQL_SPELLS = RUQL_SPELLS or {}
 local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
 local guard = false
 
-local function fontLastLines(tooltip, firstLine)
+local function applyFont(line)
+    if not line or not line.SetFont or not line.GetFont then return end
+    local _, size, flags = line:GetFont()
+    line:SetFont(FONT_FILE, size or 12, flags or "")
+end
+
+local function isQuotedDescription(text)
+    if not text or string.len(text) < 2 then return false end
+    return string.sub(text, 1, 1) == '"' and string.sub(text, -1) == '"'
+end
+
+local function replaceItemText(tooltip, item)
     local name = tooltip:GetName()
     if not name then return end
-    local line
-    for line = firstLine, tooltip:NumLines() do
-        local left = _G[name .. "TextLeft" .. line]
-        local right = _G[name .. "TextRight" .. line]
-        if left then left:SetFont(FONT_FILE, 12, "") end
-        if right then right:SetFont(FONT_FILE, 12, "") end
+
+    local title = _G[name .. "TextLeft1"]
+    if title and item[1] and item[1] ~= "" then
+        title:SetText(item[1])
+        applyFont(title)
+    end
+
+    if not item[2] or item[2] == "" then return end
+
+    local lineNumber
+    for lineNumber = 2, tooltip:NumLines() do
+        local line = _G[name .. "TextLeft" .. lineNumber]
+        local text = line and line:GetText()
+        if isQuotedDescription(text) then
+            line:SetText('"' .. item[2] .. '"')
+            applyFont(line)
+            return
+        end
     end
 end
 
@@ -36,12 +59,7 @@ local function onItem(tooltip)
     end
 
     guard = true
-    local firstLine = tooltip:NumLines() + 1
-    tooltip:AddLine(" ")
-    tooltip:AddLine("Русский перевод", 0.35, 0.65, 1)
-    if item[1] and item[1] ~= "" then tooltip:AddLine(item[1], 1, 0.82, 0, true) end
-    if item[2] and item[2] ~= "" then tooltip:AddLine(item[2], 1, 1, 1, true) end
-    fontLastLines(tooltip, firstLine)
+    replaceItemText(tooltip, item)
     tooltip:Show()
     guard = false
 end
@@ -68,7 +86,12 @@ local function onSpell(tooltip)
     tooltip:AddLine(spell[1] or originalName or "", 1, 0.82, 0, true)
     if spell[2] and spell[2] ~= "" then tooltip:AddLine(spell[2], 0.7, 0.7, 0.7, true) end
     if spell[3] and spell[3] ~= "" then tooltip:AddLine(spell[3], 1, 1, 1, true) end
-    fontLastLines(tooltip, firstLine)
+    local name = tooltip:GetName()
+    local lineNumber
+    for lineNumber = firstLine, tooltip:NumLines() do
+        applyFont(name and _G[name .. "TextLeft" .. lineNumber])
+        applyFont(name and _G[name .. "TextRight" .. lineNumber])
+    end
     tooltip:Show()
     guard = false
 end

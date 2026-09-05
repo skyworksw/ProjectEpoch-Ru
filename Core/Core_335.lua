@@ -3,7 +3,7 @@ local ADDON_NAME = ...
 RUQL_QUESTS = RUQL_QUESTS or {}
 RUQL_TITLE_INDEX = RUQL_TITLE_INDEX or {}
 
-local VERSION = "0.2.1"
+local VERSION = "0.2.2"
 local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\PTSans-Regular.ttf"
 local state = {
     currentID = nil,
