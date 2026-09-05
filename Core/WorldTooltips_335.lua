@@ -38,7 +38,6 @@ local function onUnit(tooltip)
     if not RUQL_Settings or not RUQL_Settings.tooltips then return end
     local _, unit = tooltip:GetUnit()
     if not unit then return end
-    if RUQL_CollectUnit then RUQL_CollectUnit(unit) end
     local creatureID = creatureIDFromGUID(UnitGUID(unit))
     local translation = creatureID and RUQL_NPCS[creatureID]
     if translation then replaceWorldTooltip(tooltip, translation[1], translation[2]) end
@@ -53,7 +52,6 @@ local function onShow(tooltip)
     local firstLine = name and _G[name .. "TextLeft1"]
     local original = firstLine and firstLine:GetText()
     if not original or original == "" then return end
-    if RUQL_CollectObject then RUQL_CollectObject(original) end
     replaceWorldTooltip(tooltip, RUQL_OBJECTS[original])
 end
 

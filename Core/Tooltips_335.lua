@@ -167,15 +167,10 @@ end
 
 local function onItem(tooltip)
     if guard or not RUQL_Settings or not RUQL_Settings.tooltips then return end
-    local originalName, link = tooltip:GetItem()
+    local _, link = tooltip:GetItem()
     local itemID = itemIDFromLink(link)
 
     local item = itemID and RUQL_ITEMS[itemID]
-    if itemID and not item then
-        RUQL_MissingItems = RUQL_MissingItems or {}
-        RUQL_MissingItems[itemID] = originalName or true
-        if RUQL_CollectItem then RUQL_CollectItem(itemID, originalName) end
-    end
 
     guard = true
     if item then replaceItemText(tooltip, item) end
@@ -192,12 +187,7 @@ local function onSpell(tooltip)
     if not ok or not spellID then return end
 
     local spell = RUQL_SPELLS[spellID]
-    if not spell then
-        RUQL_MissingSpells = RUQL_MissingSpells or {}
-        RUQL_MissingSpells[spellID] = { originalName, originalRank }
-        if RUQL_CollectSpell then RUQL_CollectSpell(spellID, originalName, originalRank) end
-        return
-    end
+    if not spell then return end
 
     guard = true
     replaceSpellText(tooltip, spell, originalName, originalRank)
@@ -215,8 +205,6 @@ local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_LOGIN")
 frame:SetScript("OnEvent", function()
     if RUQL_Settings.tooltips == nil then RUQL_Settings.tooltips = true end
-    RUQL_MissingItems = RUQL_MissingItems or {}
-    RUQL_MissingSpells = RUQL_MissingSpells or {}
 
     local tooltips = { GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2 }
     local _, tooltip

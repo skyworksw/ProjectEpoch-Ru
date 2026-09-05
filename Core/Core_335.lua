@@ -229,41 +229,6 @@ local function restoreOriginal()
     setText(QuestInfoRewardText, original.completion)
 end
 
-local function captureMissing(questID, kind)
-    if not RUQL_Settings.collectMissing then return end
-    local title
-    if kind == "log" and GetQuestLogSelection then
-        title = GetQuestLogTitle(GetQuestLogSelection())
-    else
-        title = GetTitleText and GetTitleText() or nil
-    end
-    if not title or title == "" then title = getText(QuestInfoTitleHeader) end
-    title = title or ""
-    local key = questID and questID > 0 and tostring(questID) or ("TITLE:" .. title)
-    local item = RUQL_Missing[key] or { id = questID or 0 }
-    item.title = title
-    item.npc = UnitName("npc")
-    item.lastSeen = date and date("%Y-%m-%d %H:%M:%S") or nil
-    if kind == "detail" then
-        item.description = GetQuestText and GetQuestText() or getText(QuestInfoDescriptionText)
-        item.objectives = GetObjectiveText and GetObjectiveText() or getText(QuestInfoObjectivesText)
-    elseif kind == "log" then
-        if GetQuestLogQuestText then
-            local description, objectives = GetQuestLogQuestText()
-            item.description = description or item.description
-            item.objectives = objectives or item.objectives
-        else
-            item.description = getText(QuestInfoDescriptionText) or item.description
-            item.objectives = getText(QuestInfoObjectivesText) or item.objectives
-        end
-    elseif kind == "progress" then
-        item.progress = GetProgressText and GetProgressText() or getText(QuestProgressText)
-    elseif kind == "complete" then
-        item.completion = GetRewardText and GetRewardText() or getText(QuestInfoRewardText)
-    end
-    RUQL_Missing[key] = item
-end
-
 local function translateObjectiveLines(quest, logIndex)
     if not logIndex or not GetNumQuestLeaderBoards then return end
     local count = GetNumQuestLeaderBoards(logIndex) or 0
@@ -311,7 +276,6 @@ local function applyTranslation(kind, forceOriginal)
 
     local quest = questID and RUQL_QUESTS[questID] or nil
     if not quest then
-        captureMissing(questID, kind)
         updateButton()
         return
     end
@@ -332,14 +296,11 @@ local function applyTranslation(kind, forceOriginal)
     setText(QuestInfoTitleHeader, quest[1])
     setText(QuestProgressTitleText, quest[1])
     if kind == "detail" or kind == "log" then
-        if not quest[2] or not quest[3] then captureMissing(questID, kind) end
         setText(QuestInfoDescriptionText, quest[2])
         setText(QuestInfoObjectivesText, quest[3])
     elseif kind == "progress" then
-        if not quest[4] then captureMissing(questID, kind) end
         setText(QuestProgressText, quest[4])
     elseif kind == "complete" then
-        if not quest[5] then captureMissing(questID, kind) end
         setText(QuestInfoRewardText, quest[5])
     end
     applyLabels()
@@ -384,10 +345,8 @@ end
 local function initialize()
     RUQL_Settings = RUQL_Settings or {}
     if RUQL_Settings.enabled == nil then RUQL_Settings.enabled = true end
-    if RUQL_Settings.collectMissing == nil then RUQL_Settings.collectMissing = true end
     -- Always begin a new UI session in Russian mode. The toggle is temporary.
     RUQL_Settings.showOriginal = false
-    RUQL_Missing = RUQL_Missing or {}
 
     local questID, quest
     for questID, quest in pairs(RUQL_QUESTS) do
@@ -431,14 +390,8 @@ local function initialize()
             toggleOriginal()
         elseif message == "id" then
             chat("ID текущего задания: " .. tostring(resolveQuestID() or "не определен"))
-        elseif message == "missing" then
-            local count = 0
-            for _ in pairs(RUQL_Missing) do count = count + 1 end
-            chat("собрано неизвестных заданий: " .. count)
-        elseif RUQL_CollectorCommand and (string.sub(message, 1, 5) == "scan " or string.sub(message, 1, 8) == "collect ") then
-            RUQL_CollectorCommand(message)
         else
-            chat("v" .. VERSION .. " — /ruql on | off | toggle | id | missing | scan | collect status")
+            chat("v" .. VERSION .. " — /ruql on | off | toggle | id")
         end
     end
     local count = 0
