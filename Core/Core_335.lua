@@ -77,15 +77,13 @@ local function setText(region, text)
     end
 end
 
-local CYRILLIC_SCALE = 0.85
-
 local function applyFont(region, size, flags)
     if not region then return end
     if not region.SetFont and region.GetFontString then
         region = region:GetFontString()
     end
     if not region or not region.SetFont then return end
-    local ok = region:SetFont(FONT_FILE, math.floor((size or 12) * CYRILLIC_SCALE + 0.5), flags or "")
+    local ok = region:SetFont(FONT_FILE, size, flags or "")
     if not ok and region.GetFont then
         local oldFont, oldSize, oldFlags = region:GetFont()
         if oldFont then region:SetFont(oldFont, oldSize or size, oldFlags or "") end

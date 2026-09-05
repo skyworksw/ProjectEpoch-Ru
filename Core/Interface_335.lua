@@ -2,12 +2,11 @@ RUQL_INTERFACE_TEXT = RUQL_INTERFACE_TEXT or {}
 RUQL_GLOBAL_STRINGS = RUQL_GLOBAL_STRINGS or {}
 
 local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
-local CYRILLIC_SCALE = 0.85
 
 local function applyFont(object)
     if not object or not object.SetFont or not object.GetFont then return end
     local _, size, flags = object:GetFont()
-    object:SetFont(FONT_FILE, math.floor((size or 12) * CYRILLIC_SCALE + 0.5), flags or "")
+    object:SetFont(FONT_FILE, size or 12, flags or "")
 end
 
 local function applyInterfaceTranslation()

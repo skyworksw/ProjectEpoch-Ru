@@ -2,7 +2,6 @@ RUQL_NPCS = RUQL_NPCS or {}
 RUQL_OBJECTS = RUQL_OBJECTS or {}
 
 local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
-local CYRILLIC_SCALE = 0.85
 local guard = false
 
 local function creatureIDFromGUID(guid)
@@ -17,7 +16,7 @@ local function replaceLine(line, translation)
     line:SetText(translation)
     if line.SetFont and line.GetFont then
         local _, size, flags = line:GetFont()
-        line:SetFont(FONT_FILE, math.floor((size or 12) * CYRILLIC_SCALE + 0.5), flags or "")
+        line:SetFont(FONT_FILE, size or 12, flags or "")
     end
 end
 
