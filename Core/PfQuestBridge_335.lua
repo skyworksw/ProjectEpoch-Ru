@@ -59,7 +59,14 @@ end
 
 local function hookPfQuestTracker()
     if tracker and tracker.ButtonEvent then
-        hooksecurefunc(tracker, "ButtonEvent", translateTrackerButton)
+        -- ВРЕМЕННО ОТКЛЮЧЕНО: клик по квесту в трекере pfQuest вызывает
+        -- tracker.ButtonEvent(this) напрямую (tracker.lua ~445-448), и клиент
+        -- виснет именно на этом клике. Хук сам по себе выглядит безобидно
+        -- (join строки + SetFont, без циклов), но это самый свежий и
+        -- наименее проверенный код именно в этом месте — отключаем, пока не
+        -- найдена точная причина, чтобы не блокировать игру. Патч pfDB
+        -- (patchPfQuest выше) не трогаем — он не связан с этим кликом.
+        -- hooksecurefunc(tracker, "ButtonEvent", translateTrackerButton)
     end
 end
 
