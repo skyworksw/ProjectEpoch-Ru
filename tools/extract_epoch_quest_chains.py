@@ -74,7 +74,7 @@ def parse_quest_data(path):
     for m in re.finditer(r'\[(\d+)\]\s*=\s*\{(.*?)\n  \},\n', text, re.S):
         qid = int(m.group(1))
         block = m.group(2)
-        entry = {"pre": [], "next": None, "start_u": [], "end_u": [], "obj_i": [], "obj_o": [], "lvl": None}
+        entry = {"pre": [], "next": None, "start_u": [], "end_u": [], "obj_i": [], "obj_o": [], "obj_u": [], "lvl": None}
 
         pre_m = re.search(r'\["pre"\]\s*=\s*\{([^}]*)\}', block)
         if pre_m:
@@ -96,6 +96,7 @@ def parse_quest_data(path):
         if obj_m:
             entry["obj_i"] = parse_int_list(obj_m.group(1), "I")
             entry["obj_o"] = parse_int_list(obj_m.group(1), "O")
+            entry["obj_u"] = parse_int_list(obj_m.group(1), "U")
 
         lvl_m = re.search(r'\["lvl"\]\s*=\s*(\d+)', block)
         if lvl_m:
@@ -186,6 +187,7 @@ def main():
                 "end_npc": [units.get(u, f"NPC#{u}") for u in entry.get("end_u", [])],
                 "obj_items": [items.get(i, f"Item#{i}") for i in entry.get("obj_i", [])],
                 "obj_objects": [objects.get(o, f"Object#{o}") for o in entry.get("obj_o", [])],
+                "obj_units": [units.get(u, f"NPC#{u}") for u in entry.get("obj_u", [])],
                 "T": text.get("T"),
                 "O": text.get("O"),
                 "D": text.get("D"),
