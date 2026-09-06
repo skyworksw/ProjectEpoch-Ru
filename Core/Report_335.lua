@@ -122,22 +122,40 @@ end
 -- (ACCEPT, DECLINE, ERR_*, и т.д.) и подставляет их в код напрямую, без
 -- отдельного видимого текстового региона на экране. Такие строки сканируем
 -- отдельно — по всей таблице _G, а не только по видимым фреймам.
-local function scanGlobalStrings()
-    ensureTables()
-    local bucket = RUQL_Report.globals
+--
+-- _G в клиенте WoW — это десятки тысяч записей (все фреймы, все переменные
+-- всех аддонов, вся встроенная таблица строк клиента). Проход по ней целиком
+-- за один тик легко превышает лимит времени выполнения Lua-скрипта в WoW и
+-- подвешивает клиент. Поэтому сканируем маленькими порциями через OnUpdate:
+-- каждый кадр обрабатываем не больше GLOBAL_SCAN_BATCH ключей и продолжаем
+-- с того места, где остановились, пока не пройдём всю таблицу.
+local GLOBAL_SCAN_BATCH = 400
+
+local function scanGlobalStringsStep(bucket, key)
+    local processed = 0
     local scanned = 0
-    local name, value
-    for name, value in pairs(_G) do
-        if type(name) == "string" and type(value) == "string"
-            and string.find(name, "^%u[%u%d_]*$")
-            and not (RUQL_GLOBAL_STRINGS and RUQL_GLOBAL_STRINGS[name])
+    while processed < GLOBAL_SCAN_BATCH do
+        local ok, nextKey, value = pcall(next, _G, key)
+        if not ok then
+            -- _G изменилась под нами (частая ситуация в WoW) — останавливаемся
+            -- на достигнутом, а не рискуем зациклиться на невалидном ключе.
+            return nil, scanned
+        end
+        key = nextKey
+        if key == nil then
+            return nil, scanned
+        end
+        if type(key) == "string" and type(value) == "string"
+            and string.find(key, "^%u[%u%d_]*$")
+            and not (RUQL_GLOBAL_STRINGS and RUQL_GLOBAL_STRINGS[key])
             and string.len(value) <= 200 and looksTranslatable(value)
-            and not bucket[name] then
-            bucket[name] = { text = value, lastSeen = now() }
+            and not bucket[key] then
+            bucket[key] = { text = value, lastSeen = now() }
             scanned = scanned + 1
         end
+        processed = processed + 1
     end
-    return scanned
+    return key, scanned
 end
 
 -- Каждая запись форматируется в несколько строк: заголовок + вложенные
@@ -341,10 +359,32 @@ local function createReportFrame()
     globalsButton:SetPoint("LEFT", rescanButton, "RIGHT", 8, 0)
     globalsButton:SetText("Сканировать строки клиента")
     applyFont(globalsButton, 12)
+
+    local globalScanDriver = CreateFrame("Frame")
+    globalScanDriver:Hide()
+    local globalScanKey, globalScanTotal
+
+    globalScanDriver:SetScript("OnUpdate", function()
+        ensureTables()
+        local bucket = RUQL_Report.globals
+        local nextKey, scanned = scanGlobalStringsStep(bucket, globalScanKey)
+        globalScanTotal = globalScanTotal + scanned
+        globalScanKey = nextKey
+        if not nextKey then
+            globalScanDriver:Hide()
+            globalsButton:Enable()
+            globalsButton:SetText("Сканировать строки клиента")
+            refresh()
+            chat("новых глобальных строк: " .. globalScanTotal)
+        end
+    end)
+
     globalsButton:SetScript("OnClick", function()
-        local scanned = scanGlobalStrings()
-        refresh()
-        chat("новых глобальных строк: " .. scanned)
+        if globalScanDriver:IsShown() then return end
+        globalScanKey, globalScanTotal = nil, 0
+        globalsButton:Disable()
+        globalsButton:SetText("Сканирование…")
+        globalScanDriver:Show()
     end)
 
     local clearButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
