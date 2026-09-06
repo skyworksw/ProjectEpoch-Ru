@@ -10,5 +10,9 @@ RUQL_CHAT["Now arriving at Goldshire! Mind your step as you disembark."] = "Пр
 RUQL_CHAT["Departing from Goldshire! All aboard!"] = "Отправление из Златоземья! Все на борт!"
 RUQL_CHAT["Welcome to the Lion's Pride Inn.  Make yourself at home!"] = "Добро пожаловать в трактир «Гордость льва». Чувствуй себя как дома!"
 
+-- Project Epoch: текст собран отчётом аддона 2026-09-06.
+RUQL_CHAT["I will meet you at my home. Do not delay. The Defias have grown bold at night."] = "Встретимся у меня дома. Не медли. По ночам Братство Справедливости совсем обнаглело."
+RUQL_CHAT["If your glass is full may it be again!"] = "Пусть бокал твой не будет пустым!"
+
 -- Пример:
 -- RUQL_CHAT["If your glass is full, may it be again!"] = "Пусть бокал твой не будет пустым!"

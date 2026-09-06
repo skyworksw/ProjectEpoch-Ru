@@ -121,6 +121,7 @@ local EXACT_LINE_TRANSLATIONS = {
     ["Quest Item"] = "Квестовый предмет",
     ["Unique"] = "Уникальный",
     ["Unique-Equipped"] = "Уникальный (в экипировке)",
+    ["No sell price"] = "Не продаётся",
 }
 
 local PREFIX_TRANSLATIONS = {

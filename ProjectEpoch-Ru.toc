@@ -25,3 +25,4 @@ Core\Tooltips_335.lua
 Core\WorldTooltips_335.lua
 Core\Achievements_335.lua
 Core\Chat_335.lua
+Core\PfQuestBridge_335.lua
