@@ -207,6 +207,15 @@ local function formatEntry(categoryKey, key, entry, out)
     end
 end
 
+-- Категория "globals" за долгую игровую сессию накапливает тысячи записей
+-- (реально наблюдалось 8000+, ~1 МБ текста). EditBox:SetText на клиенте
+-- 3.3.5 с текстом такого размера (и тем более на 8000+ строк, из-за
+-- SetHeight под них) подвешивает клиент намертво — именно это происходило
+-- при клике на кнопку миникарты 2026-09-06. Полные данные никуда не
+-- деваются — они всегда лежат в SavedVariables/ProjectEpoch-Ru.lua на диске;
+-- в окно отчёта попадает только ограниченное превью.
+local MAX_PREVIEW_ENTRIES = 200
+
 local function buildReportText()
     ensureTables()
     local lines = {}
@@ -221,8 +230,15 @@ local function buildReportText()
             table.insert(lines, "  —")
         else
             local key, entry
+            local shown = 0
             for key, entry in pairs(bucket) do
+                if shown >= MAX_PREVIEW_ENTRIES then
+                    table.insert(lines, "  ... и ещё " .. (count - shown)
+                        .. " (полный список — в файле WTF/Account/.../SavedVariables/ProjectEpoch-Ru.lua)")
+                    break
+                end
                 formatEntry(category.key, key, entry, lines)
+                shown = shown + 1
             end
         end
     end
@@ -310,14 +326,17 @@ local function createReportFrame()
     hint:SetPoint("BOTTOMLEFT", 16, 52)
     hint:SetPoint("BOTTOMRIGHT", -16, 52)
     hint:SetJustifyH("LEFT")
-    hint:SetText("Это предпросмотр. Нажми «Копировать» — текст закодируется в Base64 (WoW иначе портит кириллицу при Ctrl+C) и выделится для отправки разработчику.")
+    hint:SetText("Это предпросмотр (до " .. MAX_PREVIEW_ENTRIES .. " записей на категорию — иначе клиент виснет). Нажми «Копировать» — текст закодируется в Base64 (WoW иначе портит кириллицу при Ctrl+C) и выделится для отправки разработчику. Полные данные всегда доступны в SavedVariables/ProjectEpoch-Ru.lua.")
     applyFont(hint, 11)
 
     local reportText = ""
 
+    -- Верхняя граница на высоту EditBox — даже с MAX_PREVIEW_ENTRIES по всем
+    -- категориям высота не должна улетать в десятки тысяч пикселей (именно
+    -- это подвешивало клиент раньше).
     local function setEditBoxText(text)
         local _, lineBreaks = string.gsub(text, "\n", "\n")
-        editBox:SetHeight(math.max(300, (lineBreaks + 1) * 14))
+        editBox:SetHeight(math.min(6000, math.max(300, (lineBreaks + 1) * 14)))
         editBox:SetText(text)
         editBox:SetCursorPosition(0)
     end
