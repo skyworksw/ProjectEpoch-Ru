@@ -229,15 +229,26 @@ local function restoreOriginal()
     setText(QuestInfoRewardText, original.completion)
 end
 
+-- captureMissing запускается с задержкой 0.08с после события (см. schedule/
+-- OnUpdate). Если игрок успел закрыть окно квеста до срабатывания таймера,
+-- GetTitleText()/GetQuestLogTitle() вернут "", и код падал на getText(
+-- QuestInfoTitleHeader) — а там в этот момент лежит либо текст предыдущего
+-- квеста, либо XML-плейсхолдер клиента, если регион ещё ни разу не
+-- обновлялся. Так в отчёт попадала мусорная запись "TITLE:Quest title".
+-- Раз окно уже закрыто — записывать нечего, выходим.
 local function captureMissing(questID, kind)
     if not RUQL_ReportAdd then return end
+    local sourceFrame = (kind == "log") and QuestLogDetailFrame or QuestFrame
+    if sourceFrame and not sourceFrame:IsVisible() then return end
+
     local title
     if kind == "log" and GetQuestLogSelection then
         title = GetQuestLogTitle(GetQuestLogSelection())
     else
         title = GetTitleText and GetTitleText() or nil
     end
-    title = title or getText(QuestInfoTitleHeader) or "?"
+    title = title or getText(QuestInfoTitleHeader)
+    if not title or title == "" then return end
     local key = questID and questID > 0 and tostring(questID) or ("TITLE:" .. title)
 
     local fields = { title = title }

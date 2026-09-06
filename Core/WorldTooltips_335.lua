@@ -34,6 +34,16 @@ local function replaceWorldTooltip(tooltip, title, subtitle)
     guard = false
 end
 
+-- "<Игрок>'s Pet" — не статичный признак существа, а подпись владельца
+-- конкретного питомца текущего игрока. Одна и та же запись существа (ID)
+-- используется для приручённых питомцев ВСЕХ игроков этого вида, поэтому
+-- нельзя ни сохранять такую строку в отчёт как "перевод для этого NPC", ни
+-- тем более подставлять чей-то захваченный текст ("Skywork's Pet") другим
+-- игрокам — так уже случилось с NPC 2544 (Bear).
+local function isPetOwnershipLine(text)
+    return text ~= nil and string.find(text, "'s Pet$") ~= nil
+end
+
 local function onUnit(tooltip)
     if not RUQL_Settings or not RUQL_Settings.tooltips then return end
     local _, unit = tooltip:GetUnit()
@@ -41,13 +51,18 @@ local function onUnit(tooltip)
     local creatureID = creatureIDFromGUID(UnitGUID(unit))
     local translation = creatureID and RUQL_NPCS[creatureID]
     if translation then
-        replaceWorldTooltip(tooltip, translation[1], translation[2])
+        local tooltipName = tooltip:GetName()
+        local subtitleRegion = tooltipName and _G[tooltipName .. "TextLeft2"]
+        local liveSubtitle = subtitleRegion and subtitleRegion:GetText()
+        local subtitle = isPetOwnershipLine(liveSubtitle) and nil or translation[2]
+        replaceWorldTooltip(tooltip, translation[1], subtitle)
     elseif creatureID and RUQL_ReportAdd then
         local tooltipName = tooltip:GetName()
         local subtitleRegion = tooltipName and _G[tooltipName .. "TextLeft2"]
+        local subtitleText = subtitleRegion and subtitleRegion:GetText()
         RUQL_ReportAdd("npcs", creatureID, {
             name = UnitName(unit),
-            subtitle = subtitleRegion and subtitleRegion:GetText(),
+            subtitle = not isPetOwnershipLine(subtitleText) and subtitleText or nil,
             zone = GetRealZoneText and GetRealZoneText() or nil,
         })
     end
