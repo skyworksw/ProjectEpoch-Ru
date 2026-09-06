@@ -38,8 +38,20 @@ local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
 -- self.text форматированной строкой (с уровнем и цветным %). Патч pfDB его не
 -- касается, поэтому подменяем текст уже в готовой строке — так сохраняются
 -- вся раскраска и проценты прогресса, которые строит сам pfQuest.
+--
+-- Раньше этот хук был отключён: клик по квесту (разворачивание/сворачивание
+-- целей) вызывает tracker.ButtonEvent(this) НАПРЯМУЮ (tracker.lua ~445-448),
+-- внутри этого же клика self:SetHeight()/self:CreateFontString() меняют
+-- размер кнопки — а изменение размера у pfUI-стилизованных фреймов способно
+-- само по себе спровоцировать повторный OnEvent/пересчёт раскладки. Если это
+-- происходит СИНХРОННО во время того же клика, hooksecurefunc вызывает наш
+-- обработчик повторно, тот снова трогает self.text — и так по кругу. guard
+-- ниже — тот же приём, что уже используется в Tooltips_335.lua/
+-- WorldTooltips_335.lua для защиты от таких повторных вызовов: если хук уже
+-- выполняется, повторный вызов просто выходит, не трогая фреймы.
+local guard = false
 local function translateTrackerButton(self)
-    if not self or not RUQL_Settings or not RUQL_Settings.enabled then return end
+    if guard or not self or not RUQL_Settings or not RUQL_Settings.enabled then return end
     local quest = self.questid and RUQL_QUESTS[self.questid]
     if not quest or not quest[1] or quest[1] == "" then return end
 
@@ -51,22 +63,18 @@ local function translateTrackerButton(self)
     local startPos, endPos = string.find(current, original, 1, true)
     if not startPos then return end
 
-    region:SetText(string.sub(current, 1, startPos - 1) .. quest[1] .. string.sub(current, endPos + 1))
-
-    local _, size, flags = region:GetFont()
-    region:SetFont(FONT_FILE, size or 12, flags or "")
+    guard = true
+    pcall(function()
+        region:SetText(string.sub(current, 1, startPos - 1) .. quest[1] .. string.sub(current, endPos + 1))
+        local _, size, flags = region:GetFont()
+        region:SetFont(FONT_FILE, size or 12, flags or "")
+    end)
+    guard = false
 end
 
 local function hookPfQuestTracker()
-    if tracker and tracker.ButtonEvent then
-        -- ВРЕМЕННО ОТКЛЮЧЕНО: клик по квесту в трекере pfQuest вызывает
-        -- tracker.ButtonEvent(this) напрямую (tracker.lua ~445-448), и клиент
-        -- виснет именно на этом клике. Хук сам по себе выглядит безобидно
-        -- (join строки + SetFont, без циклов), но это самый свежий и
-        -- наименее проверенный код именно в этом месте — отключаем, пока не
-        -- найдена точная причина, чтобы не блокировать игру. Патч pfDB
-        -- (patchPfQuest выше) не трогаем — он не связан с этим кликом.
-        -- hooksecurefunc(tracker, "ButtonEvent", translateTrackerButton)
+    if tracker and tracker.ButtonEvent and hooksecurefunc then
+        hooksecurefunc(tracker, "ButtonEvent", translateTrackerButton)
     end
 end
 
