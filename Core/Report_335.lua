@@ -14,6 +14,8 @@ local CATEGORIES = {
     { key = "npcs", label = "NPC" },
     { key = "objects", label = "Объекты" },
     { key = "interface", label = "Интерфейс" },
+    { key = "zones", label = "Зоны" },
+    { key = "globals", label = "Глобальные строки" },
 }
 
 local function now()
@@ -83,6 +85,13 @@ local function looksTranslatable(text)
     return true
 end
 
+-- Название кнопки панели действий (ActionButton11Name, MultiBarRightButton8Name
+-- и т.д.) — это имя МАКРОСА игрока в этом слоте, а не текст интерфейса.
+-- Переводить тут нечего, а шум от "/reload" и подобного только мешает отчёту.
+local function isActionButtonMacroName(name)
+    return string.find(name, "Button%d+Name$") ~= nil
+end
+
 -- Интерфейс не имеет единой точки "перевода нет" как квесты/предметы, поэтому
 -- сканируется по явному запросу игрока (кнопка в окне отчёта), а не постоянно в фоне.
 local function scanVisibleInterface()
@@ -92,6 +101,7 @@ local function scanVisibleInterface()
     local name, object
     for name, object in pairs(_G) do
         if type(name) == "string" and string.sub(name, 1, 5) ~= "RUQL_"
+            and not isActionButtonMacroName(name)
             and type(object) == "table" and object.GetText and object.IsVisible then
             local okVisible, visible = pcall(object.IsVisible, object)
             if okVisible and visible and not (RUQL_INTERFACE_TEXT and RUQL_INTERFACE_TEXT[name]) then
@@ -102,6 +112,29 @@ local function scanVisibleInterface()
                     scanned = scanned + 1
                 end
             end
+        end
+    end
+    return scanned
+end
+
+-- Тексты кнопок/лейблов интерфейса ловятся через видимые FontString (см. выше),
+-- но часть текста клиент хранит как глобальные строковые константы
+-- (ACCEPT, DECLINE, ERR_*, и т.д.) и подставляет их в код напрямую, без
+-- отдельного видимого текстового региона на экране. Такие строки сканируем
+-- отдельно — по всей таблице _G, а не только по видимым фреймам.
+local function scanGlobalStrings()
+    ensureTables()
+    local bucket = RUQL_Report.globals
+    local scanned = 0
+    local name, value
+    for name, value in pairs(_G) do
+        if type(name) == "string" and type(value) == "string"
+            and string.find(name, "^%u[%u%d_]*$")
+            and not (RUQL_GLOBAL_STRINGS and RUQL_GLOBAL_STRINGS[name])
+            and string.len(value) <= 200 and looksTranslatable(value)
+            and not bucket[name] then
+            bucket[name] = { text = value, lastSeen = now() }
+            scanned = scanned + 1
         end
     end
     return scanned
@@ -126,6 +159,7 @@ local function formatEntry(categoryKey, key, entry, out)
         appendField(out, "Цель", entry.objectives)
         appendField(out, "Прогресс", entry.progress)
         appendField(out, "Завершение", entry.completion)
+        appendField(out, "Строки цели без чисел (нужны quest[6], quest[7]...)", entry.objectiveLines)
     elseif categoryKey == "items" then
         table.insert(out, "  " .. tostring(key) .. " — " .. (entry.name or "?"))
         appendField(out, "Тултип целиком", entry.raw)
@@ -146,6 +180,10 @@ local function formatEntry(categoryKey, key, entry, out)
         table.insert(out, "  " .. (entry.name or tostring(key)) .. " (" .. (entry.zone or "?") .. ")")
     elseif categoryKey == "interface" then
         table.insert(out, "  " .. tostring(key) .. " — \"" .. (entry.text or "") .. "\"")
+    elseif categoryKey == "zones" then
+        table.insert(out, "  " .. tostring(key))
+    elseif categoryKey == "globals" then
+        table.insert(out, "  " .. tostring(key) .. " = \"" .. (entry.text or "") .. "\"")
     else
         table.insert(out, "  " .. tostring(key))
     end
@@ -212,7 +250,7 @@ local reportFrame
 
 local function createReportFrame()
     local frame = CreateFrame("Frame", "RUQL_ReportFrame", UIParent)
-    frame:SetWidth(520)
+    frame:SetWidth(640)
     frame:SetHeight(420)
     frame:SetPoint("CENTER")
     frame:SetFrameStrata("DIALOG")
@@ -243,7 +281,7 @@ local function createReportFrame()
 
     local editBox = CreateFrame("EditBox", nil, scrollFrame)
     editBox:SetMultiLine(true)
-    editBox:SetWidth(452)
+    editBox:SetWidth(572)
     editBox:SetHeight(300)
     editBox:SetAutoFocus(false)
     applyFont(editBox, 12)
@@ -295,6 +333,18 @@ local function createReportFrame()
         local scanned = scanVisibleInterface()
         refresh()
         chat("новых элементов интерфейса: " .. scanned)
+    end)
+
+    local globalsButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+    globalsButton:SetWidth(170)
+    globalsButton:SetHeight(22)
+    globalsButton:SetPoint("LEFT", rescanButton, "RIGHT", 8, 0)
+    globalsButton:SetText("Сканировать строки клиента")
+    applyFont(globalsButton, 12)
+    globalsButton:SetScript("OnClick", function()
+        local scanned = scanGlobalStrings()
+        refresh()
+        chat("новых глобальных строк: " .. scanned)
     end)
 
     local clearButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")

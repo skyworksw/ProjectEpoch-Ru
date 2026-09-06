@@ -262,9 +262,22 @@ local function captureMissing(questID, kind)
     RUQL_ReportAdd("quests", key, fields)
 end
 
-local function translateObjectiveLines(quest, logIndex)
+local function splitLeaderboardText(description)
+    if not description or description == "" then return description, "" end
+    local suffix = string.match(description, "(:%s*%d+%s*/%s*%d+.*)$") or ""
+    if suffix == "" then return description, "" end
+    return string.sub(description, 1, string.len(description) - string.len(suffix)), suffix
+end
+
+-- Каждая строка цели ("Prowler slain: 0/8") — это отдельный текст плюс счётчик
+-- прогресса, а не часть общего описания цели. Перевод общего блока (quest[3])
+-- не покрывает эти строки: их нужно переводить по отдельности в quest[6],
+-- quest[7]... Раньше сборщик их вообще не видел, поэтому непереведённые
+-- строки прогресса не попадали в отчёт и так и оставались на английском.
+local function translateObjectiveLines(quest, logIndex, questID)
     if not logIndex or not GetNumQuestLeaderBoards then return end
     local count = GetNumQuestLeaderBoards(logIndex) or 0
+    local missing = {}
     local objective
     for objective = 1, count do
         local translated = quest[5 + objective]
@@ -272,12 +285,18 @@ local function translateObjectiveLines(quest, logIndex)
         -- QuestInfoObjective1..N (inside QuestInfoObjectivesFrame), not the
         -- vanilla-era QuestLogObjective1..N. Keep the old name as a fallback.
         local region = _G["QuestInfoObjective" .. objective] or _G["QuestLogObjective" .. objective]
+        local description = GetQuestLogLeaderBoard(objective, logIndex)
         if translated and translated ~= "" and region then
-            local description = GetQuestLogLeaderBoard(objective, logIndex)
-            local suffix = description and string.match(description, "(:%s*%d+%s*/%s*%d+.*)$") or ""
+            local _, suffix = splitLeaderboardText(description)
             region:SetText(expandTokens(translated) .. suffix)
             applyFont(region, 12)
+        elseif description and description ~= "" then
+            local head = splitLeaderboardText(description)
+            table.insert(missing, head)
         end
+    end
+    if #missing > 0 and RUQL_ReportAdd and questID then
+        RUQL_ReportAdd("quests", tostring(questID), { objectiveLines = table.concat(missing, "\n") })
     end
 end
 
@@ -401,7 +420,7 @@ local function applyTranslation(kind, forceOriginal)
     translateQuestItemButtons(kind)
 
     if kind == "log" and GetQuestLogSelection then
-        translateObjectiveLines(quest, GetQuestLogSelection())
+        translateObjectiveLines(quest, GetQuestLogSelection(), questID)
     end
     updateButton()
 end

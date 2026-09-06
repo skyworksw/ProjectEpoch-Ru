@@ -31,6 +31,41 @@ local function patchPfQuest()
     end
 end
 
+local FONT_FILE = "Interface\\AddOns\\ProjectEpoch-Ru\\Fonts\\FRIZQT___CYR.ttf"
+
+-- Трекер целей на экране (tracker.lua) — это ОТДЕЛЬНЫЙ путь показа, не через
+-- pfDB: заголовок берётся живьём из self.title/self.questid и вставляется в
+-- self.text форматированной строкой (с уровнем и цветным %). Патч pfDB его не
+-- касается, поэтому подменяем текст уже в готовой строке — так сохраняются
+-- вся раскраска и проценты прогресса, которые строит сам pfQuest.
+local function translateTrackerButton(self)
+    if not self or not RUQL_Settings or not RUQL_Settings.enabled then return end
+    local quest = self.questid and RUQL_QUESTS[self.questid]
+    if not quest or not quest[1] or quest[1] == "" then return end
+
+    local original = self.title
+    local region = self.text
+    local current = original and region and region:GetText()
+    if not current then return end
+
+    local startPos, endPos = string.find(current, original, 1, true)
+    if not startPos then return end
+
+    region:SetText(string.sub(current, 1, startPos - 1) .. quest[1] .. string.sub(current, endPos + 1))
+
+    local _, size, flags = region:GetFont()
+    region:SetFont(FONT_FILE, size or 12, flags or "")
+end
+
+local function hookPfQuestTracker()
+    if tracker and tracker.ButtonEvent then
+        hooksecurefunc(tracker, "ButtonEvent", translateTrackerButton)
+    end
+end
+
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_LOGIN")
-frame:SetScript("OnEvent", patchPfQuest)
+frame:SetScript("OnEvent", function()
+    patchPfQuest()
+    hookPfQuestTracker()
+end)

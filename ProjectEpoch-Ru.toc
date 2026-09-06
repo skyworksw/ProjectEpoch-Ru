@@ -8,6 +8,7 @@
 
 Data\Generated\QuestData_WotLK_RU.lua
 Data\Generated\ItemData_WotLK_RU.lua
+Data\Generated\ZoneData_WotLK_RU.lua
 
 Data\Custom\QuestData_Custom_RU.lua
 Data\Custom\ItemData_Custom_RU.lua
