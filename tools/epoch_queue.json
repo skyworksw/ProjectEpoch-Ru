@@ -4831,11 +4831,11 @@
   {
     "chain_id": 26290,
     "size": 2,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26290,
-        "done": false,
+        "done": true,
         "lvl": 43,
         "pre": [],
         "next": 26291,
@@ -4852,7 +4852,7 @@
       },
       {
         "id": 26291,
-        "done": false,
+        "done": true,
         "lvl": 43,
         "pre": [
           26290
@@ -4878,11 +4878,11 @@
   {
     "chain_id": 26292,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26292,
-        "done": false,
+        "done": true,
         "lvl": 40,
         "pre": [],
         "next": null,
@@ -4906,11 +4906,11 @@
   {
     "chain_id": 26293,
     "size": 9,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26293,
-        "done": false,
+        "done": true,
         "lvl": 45,
         "pre": [],
         "next": 26294,
@@ -4931,7 +4931,7 @@
       },
       {
         "id": 26294,
-        "done": false,
+        "done": true,
         "lvl": 45,
         "pre": [
           26293
@@ -4954,7 +4954,7 @@
       },
       {
         "id": 26295,
-        "done": false,
+        "done": true,
         "lvl": 45,
         "pre": [
           26294
@@ -4975,7 +4975,7 @@
       },
       {
         "id": 26296,
-        "done": false,
+        "done": true,
         "lvl": 45,
         "pre": [
           26295
@@ -4998,7 +4998,7 @@
       },
       {
         "id": 26297,
-        "done": false,
+        "done": true,
         "lvl": 47,
         "pre": [
           26296
@@ -5022,7 +5022,7 @@
       },
       {
         "id": 26298,
-        "done": false,
+        "done": true,
         "lvl": 47,
         "pre": [
           26297
@@ -5045,7 +5045,7 @@
       },
       {
         "id": 26299,
-        "done": false,
+        "done": true,
         "lvl": 47,
         "pre": [
           26298
@@ -5068,7 +5068,7 @@
       },
       {
         "id": 26300,
-        "done": false,
+        "done": true,
         "lvl": 47,
         "pre": [
           26299
@@ -5089,7 +5089,7 @@
       },
       {
         "id": 26301,
-        "done": false,
+        "done": true,
         "lvl": 47,
         "pre": [
           26300
@@ -5115,11 +5115,11 @@
   {
     "chain_id": 26302,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26302,
-        "done": false,
+        "done": true,
         "lvl": 51,
         "pre": [],
         "next": null,
@@ -5143,11 +5143,11 @@
   {
     "chain_id": 26303,
     "size": 5,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26303,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26304,
@@ -5166,7 +5166,7 @@
       },
       {
         "id": 26304,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26303
@@ -5192,7 +5192,7 @@
       },
       {
         "id": 26305,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26304
@@ -5216,7 +5216,7 @@
       },
       {
         "id": 26306,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26305
@@ -5240,7 +5240,7 @@
       },
       {
         "id": 26307,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26306
@@ -5264,11 +5264,11 @@
   {
     "chain_id": 26308,
     "size": 6,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26308,
-        "done": false,
+        "done": true,
         "lvl": 20,
         "pre": [],
         "next": 26309,
@@ -5287,7 +5287,7 @@
       },
       {
         "id": 26309,
-        "done": false,
+        "done": true,
         "lvl": 20,
         "pre": [],
         "next": 26310,
@@ -5306,7 +5306,7 @@
       },
       {
         "id": 26310,
-        "done": false,
+        "done": true,
         "lvl": 25,
         "pre": [
           26309
@@ -5331,7 +5331,7 @@
       },
       {
         "id": 26311,
-        "done": false,
+        "done": true,
         "lvl": 21,
         "pre": [
           26310
@@ -5352,7 +5352,7 @@
       },
       {
         "id": 26312,
-        "done": false,
+        "done": true,
         "lvl": 22,
         "pre": [
           26311
@@ -5379,7 +5379,7 @@
       },
       {
         "id": 26313,
-        "done": false,
+        "done": true,
         "lvl": 22,
         "pre": [
           26312
@@ -5403,11 +5403,11 @@
   {
     "chain_id": 26316,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26316,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -5429,11 +5429,11 @@
   {
     "chain_id": 26317,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26317,
-        "done": false,
+        "done": true,
         "lvl": 48,
         "pre": [],
         "next": null,
@@ -5458,11 +5458,11 @@
   {
     "chain_id": 26318,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26318,
-        "done": false,
+        "done": true,
         "lvl": 48,
         "pre": [],
         "next": null,
@@ -5486,11 +5486,11 @@
   {
     "chain_id": 26319,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26319,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -5515,11 +5515,11 @@
   {
     "chain_id": 26320,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26320,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -5544,11 +5544,11 @@
   {
     "chain_id": 26321,
     "size": 2,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26321,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26322,
@@ -5565,7 +5565,7 @@
       },
       {
         "id": 26322,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26321
@@ -5587,11 +5587,11 @@
   {
     "chain_id": 26323,
     "size": 2,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26323,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26324,
@@ -5608,7 +5608,7 @@
       },
       {
         "id": 26324,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26323
@@ -5630,11 +5630,11 @@
   {
     "chain_id": 26325,
     "size": 11,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26325,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26326,
@@ -5651,7 +5651,7 @@
       },
       {
         "id": 26326,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26325
@@ -5670,7 +5670,7 @@
       },
       {
         "id": 26327,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26326
@@ -5695,7 +5695,7 @@
       },
       {
         "id": 26328,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26327
@@ -5716,7 +5716,7 @@
       },
       {
         "id": 26329,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26328
@@ -5737,7 +5737,7 @@
       },
       {
         "id": 26330,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26329
@@ -5760,7 +5760,7 @@
       },
       {
         "id": 26333,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26326
@@ -5786,7 +5786,7 @@
       },
       {
         "id": 26334,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26333
@@ -5812,7 +5812,7 @@
       },
       {
         "id": 26335,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26326
@@ -5836,7 +5836,7 @@
       },
       {
         "id": 26336,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26335
@@ -5859,7 +5859,7 @@
       },
       {
         "id": 26344,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26326
@@ -5885,11 +5885,11 @@
   {
     "chain_id": 26331,
     "size": 2,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26331,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26332
@@ -5912,7 +5912,7 @@
       },
       {
         "id": 26332,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -5936,11 +5936,11 @@
   {
     "chain_id": 26337,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26337,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -5965,11 +5965,11 @@
   {
     "chain_id": 26338,
     "size": 3,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26338,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26339,
@@ -5988,7 +5988,7 @@
       },
       {
         "id": 26339,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26338
@@ -6007,7 +6007,7 @@
       },
       {
         "id": 26340,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26339
@@ -6033,11 +6033,11 @@
   {
     "chain_id": 26341,
     "size": 2,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26341,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26342,
@@ -6054,7 +6054,7 @@
       },
       {
         "id": 26342,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26341
@@ -6080,11 +6080,11 @@
   {
     "chain_id": 26343,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26343,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -6106,11 +6106,11 @@
   {
     "chain_id": 26345,
     "size": 8,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26345,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           2964
@@ -6131,7 +6131,7 @@
       },
       {
         "id": 26346,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26347,
@@ -6150,7 +6150,7 @@
       },
       {
         "id": 26347,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26345,
@@ -6172,7 +6172,7 @@
       },
       {
         "id": 26348,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26347
@@ -6193,7 +6193,7 @@
       },
       {
         "id": 26349,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26348
@@ -6214,7 +6214,7 @@
       },
       {
         "id": 26350,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26349
@@ -6235,7 +6235,7 @@
       },
       {
         "id": 26351,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26350
@@ -6256,7 +6256,7 @@
       },
       {
         "id": 26352,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26351
@@ -6280,11 +6280,11 @@
   {
     "chain_id": 26353,
     "size": 8,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26353,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           2968
@@ -6305,7 +6305,7 @@
       },
       {
         "id": 26354,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26355,
@@ -6324,7 +6324,7 @@
       },
       {
         "id": 26355,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26353,
@@ -6346,7 +6346,7 @@
       },
       {
         "id": 26356,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26355
@@ -6367,7 +6367,7 @@
       },
       {
         "id": 26357,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26356
@@ -6390,7 +6390,7 @@
       },
       {
         "id": 26358,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26357
@@ -6411,7 +6411,7 @@
       },
       {
         "id": 26359,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26358
@@ -6432,7 +6432,7 @@
       },
       {
         "id": 26360,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26359
@@ -6456,11 +6456,11 @@
   {
     "chain_id": 26361,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26361,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6478,11 +6478,11 @@
   {
     "chain_id": 26362,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26362,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6500,11 +6500,11 @@
   {
     "chain_id": 26363,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26363,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6522,11 +6522,11 @@
   {
     "chain_id": 26364,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26364,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6544,11 +6544,11 @@
   {
     "chain_id": 26365,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26365,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6566,11 +6566,11 @@
   {
     "chain_id": 26366,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26366,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6588,11 +6588,11 @@
   {
     "chain_id": 26367,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26367,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6610,11 +6610,11 @@
   {
     "chain_id": 26368,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26368,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6632,11 +6632,11 @@
   {
     "chain_id": 26369,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26369,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6654,11 +6654,11 @@
   {
     "chain_id": 26370,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26370,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6676,11 +6676,11 @@
   {
     "chain_id": 26371,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26371,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6698,11 +6698,11 @@
   {
     "chain_id": 26372,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26372,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6720,11 +6720,11 @@
   {
     "chain_id": 26373,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26373,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6742,11 +6742,11 @@
   {
     "chain_id": 26374,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26374,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6764,11 +6764,11 @@
   {
     "chain_id": 26375,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26375,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6786,11 +6786,11 @@
   {
     "chain_id": 26376,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26376,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6808,11 +6808,11 @@
   {
     "chain_id": 26377,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26377,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6830,11 +6830,11 @@
   {
     "chain_id": 26378,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26378,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6852,11 +6852,11 @@
   {
     "chain_id": 26379,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26379,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6874,11 +6874,11 @@
   {
     "chain_id": 26380,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26380,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6896,11 +6896,11 @@
   {
     "chain_id": 26381,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26381,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6918,11 +6918,11 @@
   {
     "chain_id": 26382,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26382,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6940,11 +6940,11 @@
   {
     "chain_id": 26383,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26383,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6962,11 +6962,11 @@
   {
     "chain_id": 26384,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26384,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -6984,11 +6984,11 @@
   {
     "chain_id": 26385,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26385,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7006,11 +7006,11 @@
   {
     "chain_id": 26386,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26386,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7028,11 +7028,11 @@
   {
     "chain_id": 26387,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26387,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7050,11 +7050,11 @@
   {
     "chain_id": 26388,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26388,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7072,11 +7072,11 @@
   {
     "chain_id": 26389,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26389,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7094,11 +7094,11 @@
   {
     "chain_id": 26390,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26390,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7116,11 +7116,11 @@
   {
     "chain_id": 26391,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26391,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7138,11 +7138,11 @@
   {
     "chain_id": 26392,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26392,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7160,11 +7160,11 @@
   {
     "chain_id": 26393,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26393,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7182,11 +7182,11 @@
   {
     "chain_id": 26394,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26394,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7204,11 +7204,11 @@
   {
     "chain_id": 26395,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26395,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7226,11 +7226,11 @@
   {
     "chain_id": 26396,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26396,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7248,11 +7248,11 @@
   {
     "chain_id": 26397,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26397,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7270,11 +7270,11 @@
   {
     "chain_id": 26398,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26398,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7292,11 +7292,11 @@
   {
     "chain_id": 26399,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26399,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7314,11 +7314,11 @@
   {
     "chain_id": 26400,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26400,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7336,11 +7336,11 @@
   {
     "chain_id": 26401,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26401,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7358,11 +7358,11 @@
   {
     "chain_id": 26402,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26402,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7380,11 +7380,11 @@
   {
     "chain_id": 26403,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26403,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7402,11 +7402,11 @@
   {
     "chain_id": 26404,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26404,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7424,11 +7424,11 @@
   {
     "chain_id": 26405,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26405,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7446,11 +7446,11 @@
   {
     "chain_id": 26406,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26406,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7468,11 +7468,11 @@
   {
     "chain_id": 26407,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26407,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7490,11 +7490,11 @@
   {
     "chain_id": 26408,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26408,
-        "done": false,
+        "done": true,
         "lvl": null,
         "pre": [],
         "next": null,
@@ -7512,11 +7512,11 @@
   {
     "chain_id": 26409,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26409,
-        "done": false,
+        "done": true,
         "lvl": 10,
         "pre": [],
         "next": 6064,
@@ -7538,11 +7538,11 @@
   {
     "chain_id": 26410,
     "size": 4,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26410,
-        "done": false,
+        "done": true,
         "lvl": 10,
         "pre": [],
         "next": 26411,
@@ -7561,7 +7561,7 @@
       },
       {
         "id": 26411,
-        "done": false,
+        "done": true,
         "lvl": 10,
         "pre": [
           26410
@@ -7582,7 +7582,7 @@
       },
       {
         "id": 26412,
-        "done": false,
+        "done": true,
         "lvl": 10,
         "pre": [
           26411
@@ -7603,7 +7603,7 @@
       },
       {
         "id": 26413,
-        "done": false,
+        "done": true,
         "lvl": 10,
         "pre": [
           26412
@@ -7627,11 +7627,11 @@
   {
     "chain_id": 26414,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26414,
-        "done": false,
+        "done": true,
         "lvl": 1,
         "pre": [
           7
@@ -7655,11 +7655,11 @@
   {
     "chain_id": 26415,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26415,
-        "done": false,
+        "done": true,
         "lvl": 1,
         "pre": [
           179
@@ -7683,11 +7683,11 @@
   {
     "chain_id": 26416,
     "size": 3,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26416,
-        "done": false,
+        "done": true,
         "lvl": 50,
         "pre": [],
         "next": 26417,
@@ -7708,7 +7708,7 @@
       },
       {
         "id": 26417,
-        "done": false,
+        "done": true,
         "lvl": 50,
         "pre": [
           26416
@@ -7731,7 +7731,7 @@
       },
       {
         "id": 26418,
-        "done": false,
+        "done": true,
         "lvl": 50,
         "pre": [
           26417
@@ -7757,11 +7757,11 @@
   {
     "chain_id": 26419,
     "size": 3,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26419,
-        "done": false,
+        "done": true,
         "lvl": 50,
         "pre": [],
         "next": 26420,
@@ -7782,7 +7782,7 @@
       },
       {
         "id": 26420,
-        "done": false,
+        "done": true,
         "lvl": 50,
         "pre": [
           26419
@@ -7805,7 +7805,7 @@
       },
       {
         "id": 26421,
-        "done": false,
+        "done": true,
         "lvl": 50,
         "pre": [
           26420
@@ -7831,11 +7831,11 @@
   {
     "chain_id": 26422,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26422,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -7859,11 +7859,11 @@
   {
     "chain_id": 26423,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26423,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": null,
@@ -7885,11 +7885,11 @@
   {
     "chain_id": 26424,
     "size": 2,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26424,
-        "done": false,
+        "done": true,
         "lvl": 40,
         "pre": [],
         "next": 26425,
@@ -7910,7 +7910,7 @@
       },
       {
         "id": 26425,
-        "done": false,
+        "done": true,
         "lvl": 40,
         "pre": [
           26424
@@ -7936,11 +7936,11 @@
   {
     "chain_id": 26426,
     "size": 2,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26426,
-        "done": false,
+        "done": true,
         "lvl": 40,
         "pre": [],
         "next": 26427,
@@ -7961,7 +7961,7 @@
       },
       {
         "id": 26427,
-        "done": false,
+        "done": true,
         "lvl": 40,
         "pre": [
           26426
@@ -7987,11 +7987,11 @@
   {
     "chain_id": 26428,
     "size": 1,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26428,
-        "done": false,
+        "done": true,
         "lvl": 1,
         "pre": [
           364
@@ -8015,11 +8015,11 @@
   {
     "chain_id": 26429,
     "size": 11,
-    "all_done": false,
+    "all_done": true,
     "quests": [
       {
         "id": 26429,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [],
         "next": 26430,
@@ -8034,7 +8034,7 @@
       },
       {
         "id": 26430,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26429
@@ -8051,7 +8051,7 @@
       },
       {
         "id": 26431,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26430
@@ -8068,7 +8068,7 @@
       },
       {
         "id": 26432,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26431
@@ -8085,7 +8085,7 @@
       },
       {
         "id": 26433,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26432
@@ -8102,7 +8102,7 @@
       },
       {
         "id": 26434,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26433
@@ -8119,7 +8119,7 @@
       },
       {
         "id": 26435,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26434
@@ -8136,7 +8136,7 @@
       },
       {
         "id": 26436,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26435
@@ -8153,7 +8153,7 @@
       },
       {
         "id": 26437,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26436
@@ -8170,7 +8170,7 @@
       },
       {
         "id": 26438,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26437
@@ -8187,7 +8187,7 @@
       },
       {
         "id": 26439,
-        "done": false,
+        "done": true,
         "lvl": 60,
         "pre": [
           26438
